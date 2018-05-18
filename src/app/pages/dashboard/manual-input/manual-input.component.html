@@ -1,0 +1,20 @@
+<nb-card>
+<nb-card-header>Manuelle Koordinaten</nb-card-header>
+  <nb-card-body class="row">
+        <div class="col-md-9 no_padding">
+        <div class="input-group">
+          <span class="input-group-addon success">x</span>
+          <input type="number" class="form-control" placeholder="Centimeter"  [(ngModel)] = "data.x_value"/>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon success">y</span>
+          <input type="number" class="form-control" placeholder="Centimeter" [(ngModel)] = "data.y_value"/> 
+        </div>
+      </div>
+        <div class="col-md-3 no_padding">
+          <button class="btn btn-success" (click)="httpSend()">
+              Send
+            </button>
+        </div>
+  </nb-card-body>
+</nb-card>

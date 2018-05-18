@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'ngx-status-card',
   styleUrls: ['./status-card.component.scss'],
   template: `
-    <nb-card (click)="on = !on" [ngClass]="{'off': !on}">
+    <nb-card (click)="handleClick()" [ngClass]="{'off': !on}">
       <div class="icon-container">
         <div class="icon {{ type }}">
           <ng-content></ng-content>
@@ -19,8 +19,20 @@ import { Component, Input } from '@angular/core';
   `,
 })
 export class StatusCardComponent {
+  @Output('stateChange') changeEvent: EventEmitter<any>; 
 
   @Input() title: string;
   @Input() type: string;
-  @Input() on = true;
+  @Input() on = false;
+
+  constructor(){
+    this.changeEvent = new EventEmitter();
+  }
+
+  public handleClick()
+  {
+    this.on = !this.on; 
+    this.changeEvent.emit(this.on);
+
+  }
 }

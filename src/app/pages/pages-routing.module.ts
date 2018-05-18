@@ -1,3 +1,4 @@
+
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -18,24 +19,15 @@ const routes: Routes = [{
     path: 'components',
     loadChildren: './components/components.module#ComponentsModule',
   }, {
-    path: 'maps',
-    loadChildren: './maps/maps.module#MapsModule',
-  }, {
     path: 'charts',
     loadChildren: './charts/charts.module#ChartsModule',
-  }, {
-    path: 'editors',
-    loadChildren: './editors/editors.module#EditorsModule',
   }, {
     path: 'forms',
     loadChildren: './forms/forms.module#FormsModule',
   }, {
-    path: 'tables',
-    loadChildren: './tables/tables.module#TablesModule',
-  }, {
-    path: 'miscellaneous',
-    loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',
-  }, {
+    path: 'machines',
+    loadChildren: './machines/machines.module#MachinesModule',
+  },  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',

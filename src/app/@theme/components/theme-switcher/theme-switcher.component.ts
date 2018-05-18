@@ -9,8 +9,8 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
     <ngx-switcher
       [firstValue]="false"
       [secondValue]="true"
-      [firstValueLabel]="'Light'"
-      [secondValueLabel]="'Cosmic'"
+      [firstValueLabel]="'Hell'"
+      [secondValueLabel]="'Dunkel'"
       [value]="currentBoolTheme()"
       (valueChange)="toggleTheme($event)"
       [vertical]="vertical"
