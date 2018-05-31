@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {DashboardService } from '../../../@core/data/dashboard.service';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -12,18 +11,23 @@ export class ManualInputComponent implements OnInit {
 		x_value: null,
 		y_value: null,
 	};
+  @Output() send= new EventEmitter(); 
 
 
-  constructor(private service: DashboardService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   httpSend(){
-  	if(this.data.x_value &&this.data.y_value)
-  		console.log(this.service.sendData(this.data));
-  	this.data.x_value = null; 
-  	this.data.y_value = null; 
+    let d = {
+      x:this.data.x_value,
+      y:this.data.y_value,
+    }
+    this.data.x_value = null;
+    this.data.y_value = null;
+  	if(d.x_value && d.y_value)
+  		this.send.emit({"manual": d});
   }
 
 }

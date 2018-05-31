@@ -35,4 +35,5 @@ export class StatusCardComponent {
     this.changeEvent.emit(this.on);
 
   }
+  
 }
