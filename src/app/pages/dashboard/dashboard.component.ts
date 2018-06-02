@@ -1,6 +1,6 @@
 import { Component , ViewChild} from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
-import {GrabSettingsComponent} from '../grab-settings/grab-settings.component';
+
 @Component({
   selector: 'ngx-dashboard',
   styleUrls: ['./dashboard.component.scss'],
@@ -10,7 +10,7 @@ export class DashboardComponent {
 	start = false ; 
 	autotag = false; 
 	lager_fahren = false;
-	@ViewChild('lager') lager: GrabSettingComponent;
+	@ViewChild('lager') lager;
 	constructor(private service : DashboardService){
 	}
 

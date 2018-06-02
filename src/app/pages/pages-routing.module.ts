@@ -27,6 +27,9 @@ const routes: Routes = [{
   }, {
     path: 'machines',
     loadChildren: './machines/machines.module#MachinesModule',
+  }, {
+    path: 'area',
+    loadChildren: './area/area.module#AreaModule',
   },  {
     path: '',
     redirectTo: 'dashboard',

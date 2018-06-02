@@ -18,6 +18,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Bereich',
+    icon: 'nb-keypad',
+    link: '/pages/area',
+  },
+  {
     title: 'UI Features',
     icon: 'nb-keypad',
     link: '/pages/ui-features',
