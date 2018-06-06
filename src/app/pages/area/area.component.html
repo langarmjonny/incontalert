@@ -29,10 +29,13 @@
 </nb-card>
 <nb-card>
 <nb-card-header>Karte</nb-card-header>
-  <nb-card-body>
-	<img src="../../../../assets/images/Hallenplan.png" (click)="changePosition($event)">
-	<img id="x1" [ngStyle]="{'top.px': top1, 'left.px': left1, 'visibility': hidden1}" src="../../../../assets/images/Kreuz.png">
-  <img id="x2" [ngStyle]="{'top.px': top2, 'left.px': left2, 'visibility': hidden2}" src="../../../../assets/images/Kreuz.png">
+  <nb-card-body #halle_container>
+	<img #halle src="../../../../assets/images/Hallenplan.png" (click)="changePosition($event)">
+	<img id="x1" [ngStyle]="{'top.px': top1, 'left.px': left1 }" src="../../../../assets/images/Kreuz.png" *ngIf = "visible1">
+  <img id="x2" [ngStyle]="{'top.px': top2, 'left.px': left2 }" src="../../../../assets/images/Kreuz.png" *ngIf="visible2">
+  <svg *ngIf="!point1 && !point2">
+    <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);"/>  
+  </svg>
 </nb-card-body>
 </nb-card>
 
@@ -58,14 +61,14 @@
   <br />
   <div class="row">
   	<div class="input-group col-md-4">
-          <span class="input-group-addon primary">Zeilen</span>
-          <input type="number" class="form-control"  />
+          <span class="input-group-addon primary" >Zeilen</span>
+          <input type="number" class="form-control" [(ngModel)]="rows" />
     </div>
     <div class="input-group col-md-4">
           <span class="input-group-addon primary">Spalten</span>
-          <input type="number" class="form-control" />
+          <input type="number" class="form-control" [(ngModel)]="cols" />
     </div>
-   <button class="btn btn-success col-md-4" (click)="">Speichern</button>
+   <button class="btn btn-success col-md-4" >Speichern</button>
         </div>
   </nb-card-body>
 </nb-card>
