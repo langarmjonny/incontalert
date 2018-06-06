@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UiSwitchModule } from 'ngx-toggle-switch';
+
 
 @Component({
   selector: 'area',
@@ -33,13 +33,13 @@ export class AreaComponent implements OnInit {
   changePosition(e){
   	if(this.point1) {
   		this.hidden1 = 'visible';
-	  	this.left1 = e.offsetX + document.getElementById('x1').getAttribute('width');
-	  	this.top1 = e.offsetY + document.getElementById('x1').getAttribute('height') ;
+	  	this.left1 = parseInt(e.offsetX) +  parseInt(document.getElementById('x1').getAttribute('width'));
+	  	this.top1 =  parseInt(e.offsetY) +  parseInt(document.getElementById('x1').getAttribute('height')) ;
 	}
 	if(this.point2) {
 		this.hidden2 = 'visible';
-	  	this.left2 = e.offsetX + document.getElementById('x2').getAttribute('width');
-	  	this.top2 = e.offsetY + document.getElementById('x2').getAttribute('height') ;
+	  	this.left2 =  parseInt(e.offsetX) +  parseInt(document.getElementById('x2').getAttribute('width'));
+	  	this.top2 =  parseInt(e.offsetY) +  parseInt(document.getElementById('x2').getAttribute('height'));
 	}
   	console.log(e); 
   }

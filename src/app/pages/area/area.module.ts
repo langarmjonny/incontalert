@@ -8,13 +8,13 @@ import { ThemeModule } from '../../@theme/theme.module';
 const routes: Routes = [{
   path: '',
   component: AreaComponent,
-  pathMatch: 'full'
+  pathMatch: 'full',
   }];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
     ThemeModule,
   ],
   declarations: [AreaComponent],
