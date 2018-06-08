@@ -23,6 +23,46 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/area',
   },
   {
+    title: 'Statistiken',
+    icon: 'nb-bar-chart',
+    children: [
+      {
+        title: 'Robotino',
+        link: '/pages/charts/echarts',
+      },
+      {
+        title: 'User',
+        link: '/pages/charts/chartjs',
+      },
+      {
+        title: 'Inventur',
+        link: '/pages/charts/d3',
+      },
+    ],
+  },
+  {
+    title: 'User',
+    icon: 'nb-locked',
+    children: [
+      {
+        title: 'Login',
+        link: '/auth/login',
+      },
+      {
+        title: 'Register',
+        link: '/auth/register',
+      },
+      {
+        title: 'Request Password',
+        link: '/auth/request-password',
+      },
+      {
+        title: 'Reset Password',
+        link: '/auth/reset-password',
+      },
+    ],
+  },
+  {
     title: 'UI Features',
     icon: 'nb-keypad',
     link: '/pages/ui-features',
@@ -85,46 +125,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }, {
         title: 'Notifications',
         link: '/pages/components/notifications',
-      },
-    ],
-  },
-  {
-    title: 'Charts',
-    icon: 'nb-bar-chart',
-    children: [
-      {
-        title: 'Echarts',
-        link: '/pages/charts/echarts',
-      },
-      {
-        title: 'Charts.js',
-        link: '/pages/charts/chartjs',
-      },
-      {
-        title: 'D3',
-        link: '/pages/charts/d3',
-      },
-    ],
-  },
-  {
-    title: 'Auth',
-    icon: 'nb-locked',
-    children: [
-      {
-        title: 'Login',
-        link: '/auth/login',
-      },
-      {
-        title: 'Register',
-        link: '/auth/register',
-      },
-      {
-        title: 'Request Password',
-        link: '/auth/request-password',
-      },
-      {
-        title: 'Reset Password',
-        link: '/auth/reset-password',
       },
     ],
   },

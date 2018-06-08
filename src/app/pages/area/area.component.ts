@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {DashboardService } from '../../@core/data/dashboard.service';
 
 @Component({
   selector: 'area',
@@ -15,16 +15,22 @@ export class AreaComponent implements OnInit {
 	visible2 = false; 
 	point1: boolean = false;
 	point2: boolean = false;
-  cols = 40; 
-  rows = 20; 
-  rects = [];
-  values= [{color : "", value : -1},{color: "rgba(255, 0,0, 0.5)", value : 1},{color: "rgba(163, 255, 209, 0.5)", value : 2}];
-  difficulty= this.values[1];
+	x1: number;
+	x2: number; 
+	y1: number; 
+	y2: number;
 
-  constructor() { }
+	cols = 40; 
+	rows = 20; 
+	rects = [];
+	values= [{color : "rgba(200, 0,0, 0.4)", value : -1},{color: "rgba(0, 255,0, 0.4)", value : 1},{color: "rgba(250, 250, 100, 0.4)", value : 2},{color: "rgba(250, 130, 0, 0.4)", value : 3}];
+	difficulty= this.values[1];
+
+  constructor(private postService: DashboardService) { }
 
   ngOnInit() {
-    this.generateRectArray(null);
+  	this.getAreaData();
+    this.generateRectArray();
   }
 
   setPoint(point){
@@ -43,7 +49,6 @@ export class AreaComponent implements OnInit {
   		this.visible1 = true;
 	  	this.left1 = e.offsetX -15 ;
 	  	this.top1 =  e.offsetY -15;
-     console.log(this.left1 + " " + this.top1);
   	}
   	if(this.point2) {
   		this.visible2 = true;
@@ -51,25 +56,53 @@ export class AreaComponent implements OnInit {
   	  	this.top2 =  e.offsetY -15 ;
   	}
   }
-  generateRectArray(values){
+  generateRectArray(){
     this.rects = [];
     for(var i= 0; i < this.rows; i++ )
     {
       for(var j=0; j < this.cols; j++)
         {
           this.rects.push({
-            x:Math.floor( j * 1500 / this.cols),
-            y:Math.floor( i * 702 / this.rows),
-            value: this.values[2],
-            width: Math.floor(1500 / this.cols),
-            height: Math.floor(702 / this.rows),
+            x: j * 1500 / this.cols,
+            y: i * 702 / this.rows,
+            value: this.values[0],
+            width: 1500 / this.cols,
+            height: 702 / this.rows,
           })
         }
     }
-    console.log(this.rects);
   }
   changeRectValue(rect){
     rect.value = this.difficulty;  
   }
-
+  refresh(){
+  	this.generateRectArray();
+  }
+  save(){
+  	let data = {
+  		rows: this.rows,
+  		cols: this.cols,
+  		point1: {
+  			top: this.top1,
+  			left: this.left1,
+  			x: this.x1,
+  			y: this.y1 
+  		},
+  		point2: {
+  			top: this.top2,
+  			left: this.left2,
+  			x: this.x2,
+  			y: this.y2
+  		},
+  		rects: this.rects
+  	};
+  	this.postService.sendData(data).subscribe(); 
+  	
+  }
+  getAreaData(){
+  	return;
+  }
+  recieveTagData(){
+  	return;
+  }
 }

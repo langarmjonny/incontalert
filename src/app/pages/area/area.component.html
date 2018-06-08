@@ -8,18 +8,18 @@
         <div class="example-container toggle-types">
           
           <div [(ngModel)]="radioModel" ngbRadioGroup
-               class="btn-group btn-group-toggle btn-outline-toggle-group btn-group-full-width btn-toggle-radio-group">
+               class="btn-group btn-group-toggle btn-outline-toggle-group btn-group-full-width btn-toggle-radio-group" >
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" value="1"> 1 (leicht)
+              <input ngbButton type="radio" [value]="values[1]" [(ngModel)]="difficulty"> 1 (leicht)
             </label>
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" value="2"> 2 (mittel)
+              <input ngbButton type="radio" [value]="values[2]" [(ngModel)]="difficulty"> 2 (mittel)
             </label>
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" value="3"> 3 (schwer)
+              <input ngbButton type="radio" [value]="values[3]" [(ngModel)]="difficulty"> 3 (schwer)
             </label>
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" value="-1"> Verboten
+              <input ngbButton type="radio" [value]="values[0]" [(ngModel)]="difficulty"> Verboten
             </label>
           </div>
           </div>
@@ -30,9 +30,9 @@
 <nb-card>
 <nb-card-header>Karte</nb-card-header>
   <nb-card-body #halle_container>
-	<img #halle src="../../../../assets/images/Hallenplan.png" (click)="changePosition($event)">
-	<img id="x1" [ngStyle]="{'top.px': top1, 'left.px': left1 }" src="../../../../assets/images/Kreuz.png" *ngIf = "visible1">
-  <img id="x2" [ngStyle]="{'top.px': top2, 'left.px': left2 }" src="../../../../assets/images/Kreuz.png" *ngIf="visible2">
+	<img #halle src="assets/images/Hallenplan.png" (click)="changePosition($event)">
+	<img id="x1" [ngStyle]="{'top.px': top1, 'left.px': left1 }" src="assets/images/Kreuz.png" *ngIf = "visible1">
+  <img id="x2" [ngStyle]="{'top.px': top2, 'left.px': left2 }" src="assets/images/Kreuz.png" *ngIf="visible2">
   <svg *ngIf="!point1 && !point2">
     <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);"/>  
   </svg>
@@ -47,28 +47,34 @@
   	<button class="btn btn-primary btn-icon input-group-text" (click)="setPoint(1)">
               <i class="nb-location"></i>
             </button>
-          <input type="number" class="form-control col-md-4" placeholder="X1">
-          <input type="number" class="form-control col-md-4" placeholder="Y1">
+          <input type="number" class="form-control col-md-4" placeholder="X1" [(ngModel)]="x1">
+          <input type="number" class="form-control col-md-4" placeholder="Y1" [(ngModel)]="x2">
+          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData()">
+            <i class="ion-arrow-shrink"></i>
+          </button>
       </div>
       <div class="input-group col-md-6">
   	<button class="btn btn-primary btn-icon input-group-text"  (click)="setPoint(2)">
               <i class="nb-location"></i>
             </button>
-          <input type="number" class="form-control col-md-4" placeholder="X2">
-          <input type="number" class="form-control col-md-4" placeholder="Y2">
+          <input type="number" class="form-control col-md-4" placeholder="X2" [(ngModel)]="y1">
+          <input type="number" class="form-control col-md-4" placeholder="Y2" [(ngModel)]="y2">
+          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData()">
+            <i class="ion-arrow-shrink"></i>
+          </button>
       </div>
   </div>
   <br />
   <div class="row">
   	<div class="input-group col-md-4">
           <span class="input-group-addon primary" >Zeilen</span>
-          <input type="number" class="form-control" [(ngModel)]="rows" />
+          <input type="number" class="form-control" [(ngModel)]="rows" (change)="refresh()" />
     </div>
     <div class="input-group col-md-4">
           <span class="input-group-addon primary">Spalten</span>
-          <input type="number" class="form-control" [(ngModel)]="cols" />
+          <input type="number" class="form-control" [(ngModel)]="cols" (change)="refresh()" />
     </div>
-   <button class="btn btn-success col-md-4" >Speichern</button>
+   <button class="btn btn-success col-md-4" (click)="save()">Speichern</button>
         </div>
   </nb-card-body>
 </nb-card>
