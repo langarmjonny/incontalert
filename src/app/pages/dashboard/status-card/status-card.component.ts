@@ -20,7 +20,6 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
 })
 export class StatusCardComponent {
   @Output('stateChange') changeEvent: EventEmitter<any>; 
-
   @Input() title: string;
   @Input() type: string;
   @Input() on = false;

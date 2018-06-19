@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xxxl-6 col-md-6">
-    <ngx-status-card title="Programmstart" type="success" (stateChange)="start = $event; autotag = false; httpSend('start');"[on]="start">
+    <ngx-status-card title="Programmstart" type="success" (stateChange)="start = $event; autotag = false; httpSend('start');"[on]="start" >
       <i class="nb-power"></i>
     </ngx-status-card>
   </div>
@@ -18,7 +18,7 @@
 </div>
 <div class="row" *ngIf="start &&  !autotag">
   <div class="col-xxxl-6 col-md-6">
-    <manual-input (send)="httpSend($event)"></manual-input>
+    <manual-input (send)="httpSend($event[0] , $event[1])"></manual-input>
   </div> 
   <div class="col-xxxl-6 col-md-6">
     <navigation-buttons (send)="httpSend($event)"></navigation-buttons>

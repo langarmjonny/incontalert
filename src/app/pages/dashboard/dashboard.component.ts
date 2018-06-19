@@ -14,20 +14,23 @@ export class DashboardComponent {
 	constructor(private service : DashboardService){
 	}
 
-	httpSend(mes: any){
-		let message = mes;
-		let lager;
-		if(message == "autotag" && !this.autotag)
+	httpSend(main_mes: any, detail_mes:any){
+		let main_message = main_mes;
+		let message: any;
+		let warehouse_message: any;  
+		let detail_message = detail_mes; 
+		if(!detail_mes) detail_message = null;  
+		if(main_message == "autotag" && !this.autotag)
 			return; 
-	    if(message=="start" && !this.start)
-	      message = "stop"; 
+	    if(main_message=="start" && !this.start)
+	      main_message = "stop"; 
 	  	if(this.lager_fahren && this.lager.part_name != "<AUSWÄHLEN>"){
-	  		message = [message ,this.lager.part_name];
+	  		warehouse_message = this.lager.part_name;
 	  	}
 	  	else 
-	  		message = [message ,null];
+	  		warehouse_message = null;
 	  		
-	    this.service.sendData(message).subscribe();
-	    console.log(message);
+	    this.service.sendData([main_message, detail_message, warehouse_message]).subscribe();
+	    console.log([main_message, detail_message, warehouse_message]);
   }
 }

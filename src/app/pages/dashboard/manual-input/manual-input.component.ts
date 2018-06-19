@@ -27,7 +27,7 @@ export class ManualInputComponent implements OnInit {
     this.data.x_value = null;
     this.data.y_value = null;
   	if(d.x && d.y)
-  		this.send.emit({"manual": d});
+  		this.send.emit(["manual", d]);
   }
 
 }
