@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
 
+
+
 @Component({
   selector: 'area',
   templateUrl: './area.component.html',
   styleUrls: ['./area.component.scss']
 })
 export class AreaComponent implements OnInit {
-	left1 = 300;
-	top1 = 300;
-	top2 = 200;
-	left2 = 200; 
+	left1 = 10;
+	top1 = 10;
+	top2 = 20;
+	left2 = 20; 
   leftxy = 100; 
   topxy = 100; 
   phixy = 0.0; 
@@ -23,8 +25,8 @@ export class AreaComponent implements OnInit {
 	x2: number; 
 	y1: number; 
 	y2: number;
-
-	cols = 40; 
+  halle = {y: 497, x:  1543};
+	cols = 60; 
 	rows = 20; 
 	rects = [];
 	values= [{color : "rgba(200, 0,0, 0.4)", value : -1},{color: "rgba(0, 255,0, 0.4)", value : 1},{color: "rgba(250, 250, 100, 0.4)", value : 2},{color: "rgba(250, 130, 0, 0.4)", value : 3}];
@@ -67,11 +69,11 @@ export class AreaComponent implements OnInit {
       for(var j=0; j < this.cols; j++)
         {
           this.rects.push({
-            x: j * 1500 / this.cols,
-            y: i * 702 / this.rows,
+            x: j * this.halle.x / this.cols,
+            y: i * this.halle.y / this.rows,
             value: this.values[0],
-            width: 1500 / this.cols,
-            height: 702 / this.rows,
+            width: this.halle.x / this.cols,
+            height: this.halle.y / this.rows,
           })
         }
     }
@@ -127,6 +129,7 @@ export class AreaComponent implements OnInit {
     this.phixy =  Math.acos((this.x1 * this.left1  + this.y1 * this.top1 ) / (Math.sqrt(Math.pow(this.x1 ,2 ) + Math.pow(this.y1,2) )  * (Math.sqrt(Math.pow(this.left1 ,2 ) +Math.pow(this.top1,2 ) ) ) ) )  * 360 / (2 * Math.PI ); 
     console.log(this.leftxy + " "+ this.topxy);
     this.visiblexy = true;
-
+    if(this.leftxy >= this.halle.x || this.left <  0 || this.topxy >= this.halle.y || this.topxy < 0)
+      this.visiblexy = false;
   }
 }
