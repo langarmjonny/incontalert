@@ -33,6 +33,7 @@
 	<img #halle src="assets/images/Hallenplan.png" (click)="changePosition($event)">
 	<img id="x1" [ngStyle]="{'top.px': top1, 'left.px': left1 }" src="assets/images/Kreuz.png" *ngIf = "visible1">
   <img id="x2" [ngStyle]="{'top.px': top2, 'left.px': left2 }" src="assets/images/Kreuz.png" *ngIf="visible2">
+   <img id="xy" [ngStyle]="{'top.px': topxy, 'left.px': leftxy  , 'transform': 'rotate('+phixy+'deg)'}" src="assets/images/XY.png" *ngIf="visiblexy">
   <svg *ngIf="!point1 && !point2">
     <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);"/>  
   </svg>
@@ -48,7 +49,7 @@
               <i class="nb-location"></i>
             </button>
           <input type="number" class="form-control col-md-4" placeholder="X1" [(ngModel)]="x1">
-          <input type="number" class="form-control col-md-4" placeholder="Y1" [(ngModel)]="x2">
+          <input type="number" class="form-control col-md-4" placeholder="Y1" [(ngModel)]="y1">
           <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData()">
             <i class="ion-arrow-shrink"></i>
           </button>
@@ -57,7 +58,7 @@
   	<button class="btn btn-primary btn-icon input-group-text"  (click)="setPoint(2)">
               <i class="nb-location"></i>
             </button>
-          <input type="number" class="form-control col-md-4" placeholder="X2" [(ngModel)]="y1">
+          <input type="number" class="form-control col-md-4" placeholder="X2" [(ngModel)]="x2">
           <input type="number" class="form-control col-md-4" placeholder="Y2" [(ngModel)]="y2">
           <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData()">
             <i class="ion-arrow-shrink"></i>

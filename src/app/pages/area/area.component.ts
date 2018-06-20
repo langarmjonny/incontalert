@@ -11,8 +11,12 @@ export class AreaComponent implements OnInit {
 	top1 = 300;
 	top2 = 200;
 	left2 = 200; 
+  leftxy = 100; 
+  topxy = 100; 
+  phixy = 0.0; 
 	visible1 = false;
 	visible2 = false; 
+  visiblexy = false; 
 	point1: boolean = false;
 	point2: boolean = false;
 	x1: number;
@@ -79,9 +83,16 @@ export class AreaComponent implements OnInit {
   	this.generateRectArray();
   }
   save(){
-  	let data = {
+    this.getAxis();
+  	let data = { 
   		rows: this.rows,
   		cols: this.cols,
+      x: 100, 
+      y: 100,
+      phi: 0.2,
+      mirrored: 1, 
+       /*
+
   		point1: {
   			top: this.top1,
   			left: this.left1,
@@ -93,8 +104,8 @@ export class AreaComponent implements OnInit {
   			left: this.left2,
   			x: this.x2,
   			y: this.y2
-  		},
-  		rects: this.rects
+  		},*/
+  		content: this.rects
   	};
   	this.postService.sendData(data).subscribe(); 
   	
@@ -104,5 +115,18 @@ export class AreaComponent implements OnInit {
   }
   recieveTagData(){
   	return;
+  }
+  getAxis(){
+    // get  pixel of 0,0 point
+    let a = this.x2 - this.x1; 
+    let b = this.y2- this.y1; 
+    let c = this.left2 -this.left1;
+    let d = this.top2 - this.top1; 
+    this.leftxy= c/a * (a- this.x2)+ this.left1; 
+    this.topxy = d/b * (b -this.y2) + this.top1;
+    this.phixy =  Math.acos((this.x1 * this.left1  + this.y1 * this.top1 ) / (Math.sqrt(Math.pow(this.x1 ,2 ) + Math.pow(this.y1,2) )  * (Math.sqrt(Math.pow(this.left1 ,2 ) +Math.pow(this.top1,2 ) ) ) ) )  * 360 / (2 * Math.PI ); 
+    console.log(this.leftxy + " "+ this.topxy);
+    this.visiblexy = true;
+
   }
 }
