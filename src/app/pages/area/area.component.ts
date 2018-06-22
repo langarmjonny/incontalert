@@ -129,7 +129,7 @@ export class AreaComponent implements OnInit {
     this.phixy =  Math.acos((this.x1 * this.left1  + this.y1 * this.top1 ) / (Math.sqrt(Math.pow(this.x1 ,2 ) + Math.pow(this.y1,2) )  * (Math.sqrt(Math.pow(this.left1 ,2 ) +Math.pow(this.top1,2 ) ) ) ) )  * 360 / (2 * Math.PI ); 
     console.log(this.leftxy + " "+ this.topxy);
     this.visiblexy = true;
-    if(this.leftxy >= this.halle.x || this.left <  0 || this.topxy >= this.halle.y || this.topxy < 0)
+    if(this.leftxy >= this.halle.x || this.leftxy <  0 || this.topxy >= this.halle.y || this.topxy < 0)
       this.visiblexy = false;
   }
 }
