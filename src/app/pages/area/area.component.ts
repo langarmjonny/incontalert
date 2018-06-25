@@ -109,7 +109,7 @@ export class AreaComponent implements OnInit {
   		},*/
   		content: this.rects
   	};
-  	this.postService.sendData(data).subscribe(); 
+  	this.postService.sendData(["area_write", data,null]).subscribe(); 
   	
   }
   getAreaData(){
