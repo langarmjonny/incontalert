@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
-
+import 'rxjs/add/operator/map';
 
 
 @Component({
@@ -27,11 +27,11 @@ export class AreaComponent implements OnInit {
 	y2: number;
   halle = {y: 497, x:  1543};
 	cols = 60; 
-	rows = 20; 
+	rows = 20;
+  name = "Rects"; 
 	rects = [];
 	values= [{color : "rgba(200, 0,0, 0.4)", value : -1},{color: "rgba(0, 255,0, 0.4)", value : 1},{color: "rgba(250, 250, 100, 0.4)", value : 2},{color: "rgba(250, 130, 0, 0.4)", value : 3}];
 	difficulty= this.values[1];
-
   constructor(private postService: DashboardService) { }
 
   ngOnInit() {
@@ -74,7 +74,8 @@ export class AreaComponent implements OnInit {
             value: this.values[0],
             width: this.halle.x / this.cols,
             height: this.halle.y / this.rows,
-          })
+          });
+
         }
     }
   }
@@ -87,12 +88,16 @@ export class AreaComponent implements OnInit {
   save(){
     this.getAxis();
   	let data = { 
+      name: this.name,
   		rows: this.rows,
   		cols: this.cols,
       x: 100, 
       y: 100,
       phi: 0.2,
-      mirrored: 1, 
+      mirrored: 1,
+      scale_x_axis: 1,
+      scale_y_axis: 1,
+      content: this.rects.toString(),
        /*
 
   		point1: {
@@ -107,16 +112,37 @@ export class AreaComponent implements OnInit {
   			x: this.x2,
   			y: this.y2
   		},*/
-  		content: this.rects
+  		
   	};
   	this.postService.sendData(["area_write", data,null]).subscribe(); 
   	
   }
   getAreaData(){
-  	return;
+  	 this.postService.sendData(["area_read", null ,null]).subscribe(res => {
+      if(res["NoData"] != true){
+        console.log("Daten");
+      }
+      else{
+        console.log("Keine Daten");
+      }
+     });
   }
-  recieveTagData(){
-  	return;
+  recieveTagData(i){
+  	this.postService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
+      if(res != null){
+        if(i == 1){
+          this.x1 = res["x"];
+          this.y1 = res["y"];
+        }
+        if(i == 2){
+          this.x2 = res["x"];
+          this.y2 = res["y"];
+        }
+      }
+      else{
+        console.log("Keine Daten");
+      }
+    });
   }
   getAxis(){
     // get  pixel of 0,0 point

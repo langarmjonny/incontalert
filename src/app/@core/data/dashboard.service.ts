@@ -5,14 +5,14 @@ import { of } from 'rxjs/observable/of';
 
 const httpOptions= {
 	headers: new HttpHeaders({
-		'Content-Type': 'application/json',
-		//'Access-Control-Allow-Origin' : 'Servlet',
+		'Content-Type': 'text/html',
+		//'Access-Control-Allow-Origin' : 'http://localhost:8080/RobotinoApp/Servlet',
 	})
 }
 
 @Injectable()
 export class DashboardService {
-	url: string = 'Servlet'; 
+	url: string = 'http://localhost:8080/RobotinoApp/Servlet'; 
   constructor(private http: HttpClient) { }
 
   sendData(data: any){
@@ -23,7 +23,7 @@ export class DashboardService {
   }
   /*
   recieveData(data: any){  
-    return this.http.get(this.url, data, httpOptions)
+    return this.http.get(this.url)
     .pipe(
       catchError(val => of('I caught: ${val}'))
     );

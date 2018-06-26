@@ -28,7 +28,9 @@
 </nb-card-body>
 </nb-card>
 <nb-card>
-<nb-card-header>Karte</nb-card-header>
+<nb-card-header>
+  Karte
+</nb-card-header>
   <nb-card-body #halle_container>
 	<img #halle src="assets/images/Hallenplan.png" (click)="changePosition($event)">
 	<img id="x1" [ngStyle]="{'top.px': top1, 'left.px': left1 }" src="assets/images/Kreuz.png" *ngIf = "visible1">
@@ -50,7 +52,7 @@
             </button>
           <input type="number" class="form-control col-md-4" placeholder="X1" [(ngModel)]="x1">
           <input type="number" class="form-control col-md-4" placeholder="Y1" [(ngModel)]="y1">
-          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData()">
+          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(1)">
             <i class="ion-arrow-shrink"></i>
           </button>
       </div>
@@ -60,10 +62,10 @@
             </button>
           <input type="number" class="form-control col-md-4" placeholder="X2" [(ngModel)]="x2">
           <input type="number" class="form-control col-md-4" placeholder="Y2" [(ngModel)]="y2">
-          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData()">
+          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(2)">
             <i class="ion-arrow-shrink"></i>
           </button>
-      </div>
+      </div>
   </div>
   <br />
   <div class="row">
