@@ -29,6 +29,7 @@ export class AreaComponent implements OnInit {
 	cols = 60; 
 	rows = 20;
   name = "Rects"; 
+  content:string; 
 	rects = [];
 	values= [{color : "rgba(200, 0,0, 0.4)", value : -1},{color: "rgba(0, 255,0, 0.4)", value : 1},{color: "rgba(250, 250, 100, 0.4)", value : 2},{color: "rgba(250, 130, 0, 0.4)", value : 3}];
 	difficulty= this.values[1];
@@ -36,7 +37,6 @@ export class AreaComponent implements OnInit {
 
   ngOnInit() {
   	this.getAreaData();
-    this.generateRectArray();
   }
 
   setPoint(point){
@@ -64,20 +64,43 @@ export class AreaComponent implements OnInit {
   }
   generateRectArray(){
     this.rects = [];
-    for(var i= 0; i < this.rows; i++ )
+    if(this.content == undefined || this.content == "")
     {
-      for(var j=0; j < this.cols; j++)
-        {
-          this.rects.push({
-            x: j * this.halle.x / this.cols,
-            y: i * this.halle.y / this.rows,
-            value: this.values[0],
-            width: this.halle.x / this.cols,
-            height: this.halle.y / this.rows,
-          });
+      for(var i= 0; i < this.rows; i++ )
+      {
+        for(var j=0; j < this.cols; j++)
+          {
+            this.rects.push({
+              x: j * this.halle.x / this.cols,
+              y: i * this.halle.y / this.rows,
+              value: this.values[0],
+              width: this.halle.x / this.cols,
+              height: this.halle.y / this.rows,
+            });
 
-        }
+          }
+      }
     }
+    else {
+      let array = this.content.split(',');
+      array.map(x => parseInt(x));
+      array.forEach((e, i) =>{
+        let val = this.values[0]
+        for(let i of this.values)
+        {
+          if(i.value == e){
+            val = i; 
+          }
+        }
+        this.rects.push({
+          x: (i % this.cols) * this.halle.x / this.cols,
+          y: ((i / this.cols)|0) * this.halle.y / this.rows,
+          value: val,
+          width: this.halle.x / this.cols,
+          height: this.halle.y / this.rows,
+        });
+      });
+     }
   }
   changeRectValue(rect){
     rect.value = this.difficulty;  
@@ -87,17 +110,23 @@ export class AreaComponent implements OnInit {
   }
   save(){
     this.getAxis();
+    let values = []; 
+    for(let rect of this.rects){
+      values.push(rect.value.value);
+    }
+    this.content = values.toString();
+
   	let data = { 
       name: this.name,
   		rows: this.rows,
   		cols: this.cols,
-      x: 100, 
-      y: 100,
-      phi: 0.2,
+      x: this.leftxy, 
+      y: this.topxy,
+      phi: this.phixy,
       mirrored: 1,
       scale_x_axis: 1,
       scale_y_axis: 1,
-      content: this.rects.toString(),
+      content: this.content,
        /*
 
   		point1: {
@@ -112,35 +141,55 @@ export class AreaComponent implements OnInit {
   			x: this.x2,
   			y: this.y2
   		},*/
-  		
   	};
   	this.postService.sendData(["area_write", data,null]).subscribe(); 
   	
   }
   getAreaData(){
   	 this.postService.sendData(["area_read", null ,null]).subscribe(res => {
-      if(res["NoData"] != true){
-        console.log("Daten");
-      }
-      else{
-        console.log("Keine Daten");
-      }
+        try{
+          if(res == null){
+            console.log("Keine Responsedaten erhalten");
+          }
+          else if(res["NoData"] != true){
+            this.name = res["name"];
+            this.content =res["content"];
+            this.topxy = res["y"];
+            this.leftxy = res["x"];
+            this.phixy = res["phi"];
+            this.rows = res["rows"];
+            this.cols = res["cols"];
+          }
+          else{
+            console.log("Keine Areadaten vorhanden");
+          }
+         }
+        catch(e){
+          console.log("Fehler Array Daten: "+ e);
+        }
+        this.generateRectArray();
      });
   }
   recieveTagData(i){
   	this.postService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
-      if(res != null){
-        if(i == 1){
-          this.x1 = res["x"];
-          this.y1 = res["y"];
+      try{
+        if(res != null){
+          if(i == 1){
+            this.x1 = res["x"];
+            this.y1 = res["y"];
+          }
+          if(i == 2){
+            this.x2 = res["x"];
+            this.y2 = res["y"];
+          }
         }
-        if(i == 2){
-          this.x2 = res["x"];
-          this.y2 = res["y"];
+        else{
+          console.log("Keine TagDaten");
         }
       }
-      else{
-        console.log("Keine Daten");
+      catch(e)
+      {
+        console.log("Fehler TagDaten: "+e); 
       }
     });
   }

@@ -21,12 +21,5 @@ export class DashboardService {
       catchError(val => of('I caught: ${val}'))
     );
   }
-  /*
-  recieveData(data: any){  
-    return this.http.get(this.url)
-    .pipe(
-      catchError(val => of('I caught: ${val}'))
-    );
-  }
-  */
+
 }
