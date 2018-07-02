@@ -7,6 +7,21 @@ import {DashboardService } from '../../@core/data/dashboard.service';
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
+	program = ""; 
+	program_json = {
+		"0": "Unbestimmt",
+		"1": "Bestimme Standort",
+		"2": "Kalibriere Winkel",
+		"3": "Bestimme Zielort",
+		"4": "Geradeaus Fahren",
+		"5": "Ausweichen",
+		"6":"Drehe Richtung Ziel",
+		"7": "Fahre Kreis",
+		"8": "Suche Linie",
+		"9": "Fahre auf Linie",
+		"10": "Kalibibriere Richtung",
+
+	}
 	start = false ; 
 	autotag = false; 
 	lager_fahren = false;
@@ -17,7 +32,7 @@ export class DashboardComponent {
 	ngOnInit(){
 		this.service.sendData(["info_start",null, null]).subscribe(res => {
 			if(res != null ){
-				try{
+				try{
 					this.start = res["start"];
 					this.autotag = res["autotag"];
 					this.lager_fahren = res["lager_fahren"];
@@ -31,6 +46,7 @@ export class DashboardComponent {
 				console.log("Keine Start/Stop Info Daten erhalten!");
 			}
 		});
+		setInterval(() => {this.receiveProgramInfo();} ,2000); 
 
 	}
 
@@ -63,4 +79,24 @@ export class DashboardComponent {
 	    this.service.sendData([main_message, detail_message, warehouse_message]).subscribe();
 	    console.log([main_message, detail_message, warehouse_message]);
   }
+
+  receiveProgramInfo(){
+  	if(this.start){
+	  	this.service.sendData(["program_info", null ,null]).subscribe(res => {
+	        try{
+	          if(res == null){
+	            console.log("Keine Programmdaten erhalten");
+	          }
+	          else{
+	          	this.program = this.program_json[res["program"]];
+	          }
+	      	} 
+	      	catch(e)
+	      	{
+	      		console.log("Fehler beim Empfang der Programmdaten");
+	      	}         
+	      });
+	}
+  }
+
 }

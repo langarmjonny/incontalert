@@ -88,7 +88,7 @@ export class AreaComponent implements OnInit {
         let val = this.values[0]
         for(let i of this.values)
         {
-          if(i.value == e){
+          if(i.value == parseInt(e)){
             val = i; 
           }
         }
