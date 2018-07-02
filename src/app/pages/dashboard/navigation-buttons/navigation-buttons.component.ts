@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter} from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import {MachinesTableService } from '../../../@core/data/machines-table.service';
+//import {MachinesTableService } from '../../../@core/data/machines-table.service';
 import {DashboardService } from '../../../@core/data/dashboard.service';
 
 @Component({
@@ -15,12 +15,20 @@ export class NavigationButtonsComponent  {
   ort_obj: any ; 
   @Output() send= new EventEmitter();
 
-  constructor(private service: MachinesTableService, private httpService: DashboardService) {
+  constructor( private httpService: DashboardService) {
     this.checkPositions();
   }
   checkPositions(){
-  	this.position_data = this.service.getData();
-    this.source.load(this.position_data);
+  	this.httpService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
+      try{
+        this.position_data = [res];
+        this.source.load(this.position_data);
+      }
+      catch(e){
+
+      }
+    });
+   
   }
 
   httpSend(){

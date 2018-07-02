@@ -32,7 +32,7 @@ export class DashboardComponent {
 	ngOnInit(){
 		this.service.sendData(["info_start",null, null]).subscribe(res => {
 			if(res != null ){
-				try{
+				try{
 					this.start = res["start"];
 					this.autotag = res["autotag"];
 					this.lager_fahren = res["lager_fahren"];
@@ -93,6 +93,7 @@ export class DashboardComponent {
 	      	} 
 	      	catch(e)
 	      	{
+	      		this.program = "Fehler, Programm nicht gefunden!";
 	      		console.log("Fehler beim Empfang der Programmdaten");
 	      	}         
 	      });
