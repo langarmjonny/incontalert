@@ -57,7 +57,8 @@ export class MachinesTableComponent {
   constructor(private service: DashboardService ) {
      this.service.sendData(["machine_read", null ,null]).subscribe(res => {
         try{
-            this.source.load(res);
+          console.log(res); 
+          this.source.load(res["data"]);
 
           }
           catch(e)

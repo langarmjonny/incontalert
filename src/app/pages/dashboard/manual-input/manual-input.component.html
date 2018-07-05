@@ -1,5 +1,5 @@
 <nb-card>
-<nb-card-header>Manuelle Koordinaten</nb-card-header>
+<nb-card-header>Manuelle Steuerung</nb-card-header>
   <nb-card-body class="row">
         <div class="col-md-9 no_padding">
         <div class="input-group">
@@ -18,6 +18,9 @@
         <div class="col-md-3 no_padding">
           <button class="btn btn-success" (click)="httpSend()">
               Send
+            </button>
+            <button class="btn btn-danger" (click)="httpBreak()">
+              Break
             </button>
         </div>
   </nb-card-body>

@@ -32,5 +32,8 @@ export class ManualInputComponent implements OnInit {
   	if(d.x && d.y)
   		this.send.emit(["manual", d]);
   }
+   httpBreak(){
+      this.send.emit(["stopDrivingButton", null]);
+  }
 
 }

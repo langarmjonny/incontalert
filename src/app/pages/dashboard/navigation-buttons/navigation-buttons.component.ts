@@ -21,11 +21,11 @@ export class NavigationButtonsComponent  {
   checkPositions(){
   	this.httpService.sendData(["machine_read", null, null]).subscribe(res => {
       try{
-        this.position_data = res;
+        this.position_data = res["data"];
         this.source.load(this.position_data);
       }
       catch(e){
-
+         console.log("Fehler beim Orte auslesen");
       }
     });
    
@@ -37,7 +37,7 @@ export class NavigationButtonsComponent  {
       }
   }
   httpSendTag(){
-    this.send.emit("Tag"); 
+    this.send.emit("tag"); 
   }
 
 }
