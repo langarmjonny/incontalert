@@ -6,7 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./grab-settings.component.scss']
 })
 export class GrabSettingsComponent implements OnInit {
-	part_name: string = "<Auswählen>";
+	colors  = [{
+		name:"Schwarzes Teil",
+		id:"schwarz"
+	},
+	{
+		name:"Rotes Teil",
+		id:"rot"
+	},
+	{
+		name:"Silbernes Teil",
+		id:"silber"
+	}];
+	part= {name: "<Auswählen>", value: null};
   constructor() { }
 
   ngOnInit() {

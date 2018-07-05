@@ -9,7 +9,7 @@ import {DashboardService } from '../../../@core/data/dashboard.service';
   styleUrls: ['./navigation-buttons.component.scss']
 })
 export class NavigationButtonsComponent  {
-  position_data: any[];
+  position_data;
   source: LocalDataSource = new LocalDataSource();
   ort: string="<Auswählen>";
   ort_obj: any ; 
@@ -19,9 +19,9 @@ export class NavigationButtonsComponent  {
     this.checkPositions();
   }
   checkPositions(){
-  	this.httpService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
+  	this.httpService.sendData(["machine_read", null, null]).subscribe(res => {
       try{
-        this.position_data = [res];
+        this.position_data = res;
         this.source.load(this.position_data);
       }
       catch(e){
@@ -33,7 +33,7 @@ export class NavigationButtonsComponent  {
 
   httpSend(){
     if(this.ort_obj) {
-      this.send.emit(this.ort_obj.machineName); 
+      this.send.emit(this.ort_obj.name); 
       }
   }
   httpSendTag(){

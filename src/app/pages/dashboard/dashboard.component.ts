@@ -53,7 +53,7 @@ export class DashboardComponent {
 	httpSend(main_mes: any, detail_mes:any){
 		let main_message = main_mes;
 		let message: any;
-		let warehouse_message: any;  
+		let warehouse_message = null;  
 		let detail_message = detail_mes; 
 		if(!detail_mes) detail_message = null;  
 		if(main_message == "autotag" && !this.autotag)
@@ -61,8 +61,8 @@ export class DashboardComponent {
 	    if(main_message=="start" && !this.start)
 	      main_message = "stop";
 	  	if(main_message != "lager"){
-		  	if(this.lager_fahren && this.lager.part_name != "<AUSWÄHLEN>" ){
-		  		warehouse_message = this.lager.part_name;
+		  	if(this.lager_fahren && this.lager.part.id != null ){
+		  		warehouse_message = this.lager.part.id;
 		  	}
 		}
 		if (main_message == "lager")
@@ -73,8 +73,6 @@ export class DashboardComponent {
 		{
 			detail_message = this.autotag;
 		}
-	  	else 
-	  		warehouse_message = null;
 	  		
 	    this.service.sendData([main_message, detail_message, warehouse_message]).subscribe();
 	    console.log([main_message, detail_message, warehouse_message]);

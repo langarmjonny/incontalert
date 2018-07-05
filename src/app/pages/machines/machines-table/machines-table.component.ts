@@ -33,7 +33,7 @@ export class MachinesTableComponent {
     },
 
     columns: {
-      machineName: {
+      name: {
         title: 'Name',
         type: 'string',
       },
@@ -57,7 +57,8 @@ export class MachinesTableComponent {
   constructor(private service: DashboardService ) {
      this.service.sendData(["machine_read", null ,null]).subscribe(res => {
         try{
-            this.source.load([res]);
+            this.source.load(res);
+
           }
           catch(e)
           {
@@ -74,10 +75,12 @@ export class MachinesTableComponent {
   }
 
   onCreateConfirm(event){
-    this.service.sendData(["machine_write", {"mode": "add", "value": event.newData} ,null]).subscribe();
+    let data  = event.newData();
+    console.log(data); 
+    console.log(this.source);
+    this.service.sendData(["machine_write", {"mode": "add", "value": data} ,null]).subscribe();
   }
-  onSaveConfirm(event) {
-    console.log(event); 
+  onSaveConfirm(event) { 
     this.service.sendData(["machine_write", {"mode": "edit", "value": event.newData} ,null]).subscribe();
   }
 }

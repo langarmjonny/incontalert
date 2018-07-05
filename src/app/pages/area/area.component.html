@@ -39,6 +39,7 @@
   <svg *ngIf="!point1 && !point2">
     <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);"/>  
   </svg>
+  <img id="robotino" [ngStyle]="{'top.px': position_robotino.top, 'left.px': position_robotino.left}" src="assets/images/robotino_oben.png" *ngIf="robotino_visible">
 </nb-card-body>
 </nb-card>
 
@@ -65,7 +66,7 @@
           <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(2)">
             <i class="ion-arrow-shrink"></i>
           </button>
-      </div>
+      </div>
   </div>
   <br />
   <div class="row">
@@ -79,5 +80,15 @@
     </div>
    <button class="btn btn-success col-md-4" (click)="save()">Speichern</button>
         </div>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-header>Robotino Position </nb-card-header>
+  <nb-card-body>
+    <div class=" col-md-6">
+    <button class="btn btn-primary "  (click)="robotino_visible = !robotino_visible">
+              {{robotino_visible}}
+    </button>
+    </div>
   </nb-card-body>
 </nb-card>

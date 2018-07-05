@@ -3,12 +3,10 @@
   <nb-card-body >
   	<div class="tagbutton_container">
         <div class="dropdown btn-group" ngbDropdown>
-      <button type="button" class="btn btn-primary">{{part_name}}</button>
+      <button type="button" class="btn btn-primary">{{part.name}}</button>
       <button type="button" class="btn btn-primary" ngbDropdownToggle ></button>
       <ul class="dropdown-menu" ngbDropdownMenu>
-        <li class="dropdown-item"(click)="part_name ='rotes Teil'">rotes Teil</li>
-        <li class="dropdown-item" (click)="part_name ='schwarzes Teil'">schwarzes Teil</li>
-        <li class="dropdown-item" (click)="part_name ='silbernes Teil'">silbernes Teil</li>
+        <li class="dropdown-item" *ngFor="let item of colors;"(click)="part =item">{{item.name}}</li>
       </ul>
     </div>
 </div>

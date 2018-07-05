@@ -33,10 +33,13 @@ export class AreaComponent implements OnInit {
 	rects = [];
 	values= [{color : "rgba(200, 0,0, 0.4)", value : -1},{color: "rgba(0, 255,0, 0.4)", value : 1},{color: "rgba(250, 250, 100, 0.4)", value : 2},{color: "rgba(250, 130, 0, 0.4)", value : 3}];
 	difficulty= this.values[1];
+  position_robotino = {top: 0 , left: 0}; 
+  robotino_visible = false; 
   constructor(private postService: DashboardService) { }
 
   ngOnInit() {
   	this.getAreaData();
+    setInterval(() => {this.receiveRobotinoInfo();} ,2000); 
   }
 
   setPoint(point){
@@ -123,7 +126,7 @@ export class AreaComponent implements OnInit {
       x: this.leftxy, 
       y: this.topxy,
       phi: this.phixy,
-      mirrored: 1,
+      mirrored: false,
       scale_x_axis: 1,
       scale_y_axis: 1,
       content: this.content,
@@ -206,5 +209,25 @@ export class AreaComponent implements OnInit {
     this.visiblexy = true;
     if(this.leftxy >= this.halle.x || this.leftxy <  0 || this.topxy >= this.halle.y || this.topxy < 0)
       this.visiblexy = false;
+  }
+  receiveRobotinoInfo(){
+    if(this.robotino_visible){
+      this.postService.sendData(["robotino_pos", null, null]).subscribe(res => {
+        try{
+          let x = res["x"]; 
+          let y = res["y"];
+          if( x != null && y != null)
+          {
+            this.position_robotino.left = x +20; 
+            this.position_robotino.top = y +20; 
+          }
+
+        }
+        catch(e)
+        {
+          console.log("Fehler RobotinoDaten");
+        }
+      });
+    }
   }
 }
