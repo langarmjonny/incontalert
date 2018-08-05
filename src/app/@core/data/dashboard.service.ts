@@ -17,9 +17,9 @@ export class DashboardService {
 
   sendData(data: any){
   	return this.http.post(this.url, data, httpOptions)
-    .pipe(
-      catchError(val => of('I caught: ${val}'))
-    );
+    /*.pipe(
+      catchError(val => of('I caught:'+val));
+    )*/;
   }
 
 }
