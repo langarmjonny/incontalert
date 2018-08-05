@@ -251,14 +251,17 @@ export class AreaComponent implements OnInit {
     {
       console.warn("Bitte weiter auseinanderliegende Orte waehlen");
     }
+    //
     this.xy.left= c/a * (a- this.cross2.x)+ this.cross1.left; 
     this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top;
+    console.log((c/a - d/b) +" und " + (c/ b - d/a) );
     console.log(this.xy.left + " "+ this.xy.top);
+    console.log("Alternative: "+ (c/b * (b- this.cross2.y)+ this.cross1.left));
+    console.log("Alternative: "+ (d/a * (a -this.cross2.x) + this.cross1.top));
     let  e ,f, phi_kinexon, phi_pixel; 
     if((Math.pow(this.cross1.x)+Math.pow(this.cross1.y)) > (Math.pow(this.cross2.x)+Math.pow(this.cross2.y))){
        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
-       //this.xy.phi = phi_kinexon - phi_pixel;
        e = this.cross1.left - this.xy.left;
        f = this.cross1.top - this.xy.top;
     }
@@ -275,7 +278,6 @@ export class AreaComponent implements OnInit {
 
     if(e >= 0 && f >= 0)
       this.xy.phi = phi_kinexon - phi_pixel;
-    
     else if(e <0 && f >=  0)
       this.xy.phi =  180 + phi_kinexon - phi_pixel;
     else if(e >=0 && f <  0)
