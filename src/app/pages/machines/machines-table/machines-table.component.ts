@@ -40,14 +40,17 @@ export class MachinesTableComponent {
       x: {
         title: 'X-Koordinate',
         type: 'number',
+        editor: {type: 'number'},
       },
       y: {
         title: 'Y-Koordinate',
         type: 'number',
+        editor: {type: 'number'},
       },
       phi: {
         title: 'Ausrichtung',
         type: 'number',
+        editor: {type: 'number'},
       },
     },
   };
@@ -82,6 +85,7 @@ export class MachinesTableComponent {
     this.service.sendData(["machine_write", {"mode": "add", "value": data} ,null]).subscribe();
   }
   onSaveConfirm(event) { 
+    console.log(event.newData);
     this.service.sendData(["machine_write", {"mode": "edit", "value": event.newData} ,null]).subscribe();
   }
 }

@@ -59,7 +59,7 @@ export class AreaComponent implements OnInit {
 	rects = [];
 	values= [{color : "rgba(200, 0,0, 0.4)", value : -1},{color: "rgba(0, 255,0, 0.4)", value : 1},{color: "rgba(250, 250, 100, 0.4)", value : 2},{color: "rgba(250, 130, 0, 0.4)", value : 3}];
 	difficulty= this.values[1];
-  cross1 = new Position(10,10, null null);
+  cross1 = new Position(10,10, null,null);
   cross2 = new Position(20,20,null ,null);
   xy = new AdvancedPosition(100, 100 , 0 , 0, 0, false); 
   robotino = new Position(0, 0 , null ,null); 
@@ -215,15 +215,10 @@ export class AreaComponent implements OnInit {
   recieveTagData(i){
   	this.postService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
       try{
+        console.log(i);
         if(res != null){
-          if(i == 1){
-            this.x1 = res["x"];
-            this.y1 = res["y"];
-          }
-          if(i == 2){
-            this.x2 = res["x"];
-            this.y2 = res["y"];
-          }
+           i.x = res["x"];
+           i.y = res["y"];
         }
         else{
           console.log("Keine TagDaten");
@@ -247,19 +242,22 @@ export class AreaComponent implements OnInit {
     }
     //Wanung wenn Werte zu nah beieinanderliegen
     let ab_warning = 200; 
-    if( Math.abs(a]) < ab_warning || Math.abs(b) < ab_warning )
+    if( Math.abs(a) < ab_warning || Math.abs(b) < ab_warning )
     {
       console.warn("Bitte weiter auseinanderliegende Orte waehlen");
     }
-    //
-    this.xy.left= c/a * (a- this.cross2.x)+ this.cross1.left; 
-    this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top;
-    console.log((c/a - d/b) +" und " + (c/ b - d/a) );
+    if((c/a - d/b) < (c/ b - d/a))
+    {
+      this.xy.left= c/a * (a- this.cross2.x) + this.cross1.left; 
+      this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top;
+    }
+    else{
+      this.xy.left = (c/b * (b- this.cross2.y)+ this.cross1.left);
+      this.xy.top =  (d/a * (a -this.cross2.x) + this.cross1.top);
+    }
     console.log(this.xy.left + " "+ this.xy.top);
-    console.log("Alternative: "+ (c/b * (b- this.cross2.y)+ this.cross1.left));
-    console.log("Alternative: "+ (d/a * (a -this.cross2.x) + this.cross1.top));
     let  e ,f, phi_kinexon, phi_pixel; 
-    if((Math.pow(this.cross1.x)+Math.pow(this.cross1.y)) > (Math.pow(this.cross2.x)+Math.pow(this.cross2.y))){
+    if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
        e = this.cross1.left - this.xy.left;
@@ -291,15 +289,15 @@ export class AreaComponent implements OnInit {
       console.warn("Nullpunkt außerhalb des Sichtfeldes");
   }
   receiveRobotinoInfo(){
-    if(this.robotino_visible){
+    if(this.robotino.visible){
       this.postService.sendData( ["robotino_pos", null, null]).subscribe(res => {
         try{
           let x = res["x"]; 
           let y = res["y"];
           if( x != null && y != null)
           {
-            this.position_robotino.left = x +20; 
-            this.position_robotino.top = y +20; 
+            this.robotino.left = x +20; 
+            this.robotino.top = y +20; 
           }
 
         }

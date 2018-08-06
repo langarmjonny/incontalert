@@ -1,4 +1,4 @@
-import { Component , ViewChild, OnInit} from '@angular/core';
+import { Component , ViewChild, OnInit, OnDestroy} from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
 
 @Component({
@@ -6,7 +6,7 @@ import {DashboardService } from '../../@core/data/dashboard.service';
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent {
+export class DashboardComponent {
 	program = ""; 
 	program_json = {
 		"0": "Unbestimmt",
@@ -25,6 +25,7 @@ export class DashboardComponent {
 	start = false ; 
 	autotag = false; 
 	lager_fahren = false;
+	interval = null; 
 	@ViewChild('lager') lager;
 	constructor(private service : DashboardService){
 	}
@@ -46,8 +47,13 @@ export class DashboardComponent {
 				console.log("Keine Start/Stop Info Daten erhalten!");
 			}
 		});
-		setInterval(() => {this.receiveProgramInfo();} ,2000); 
+		this.interval = setInterval(() => {this.receiveProgramInfo();} ,2000); 
 
+	}
+	ngOnDestroy(){
+		if(this.interval){
+			clearInterval(this.interval);
+		}
 	}
 
 	httpSend(main_mes: any, detail_mes:any){
