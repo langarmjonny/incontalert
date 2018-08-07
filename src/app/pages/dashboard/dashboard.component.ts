@@ -1,4 +1,4 @@
-import { Component , ViewChild, OnInit, OnDestroy} from '@angular/core';
+import { Component , ViewChild,  OnInit, OnDestroy} from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
 
 @Component({
@@ -26,7 +26,9 @@ export class DashboardComponent {
 	autotag = false; 
 	lager_fahren = false;
 	interval = null; 
+	stop_driving = false; 
 	@ViewChild('lager') lager;
+	
 	constructor(private service : DashboardService){
 	}
 
@@ -37,10 +39,11 @@ export class DashboardComponent {
 					this.start = res["start"];
 					this.autotag = res["autotag"];
 					this.lager_fahren = res["lager_fahren"];
+					this.stop_driving=res["stop_driving"]; 
 				}
 				catch(e)
 				{
-					console.log("Falsche Start/Stop Info Daten erhalten:" + e);
+					console.error("Falsche Start/Stop Info Daten erhalten:" + e);
 				}
 			}
 			else {

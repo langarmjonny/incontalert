@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy} from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
 import 'rxjs/add/operator/map';
 
@@ -63,13 +63,21 @@ export class AreaComponent implements OnInit {
   cross2 = new Position(20,20,null ,null);
   xy = new AdvancedPosition(100, 100 , 0 , 0, 0, false); 
   robotino = new Position(0, 0 , null ,null); 
+  kinexon_array = [];
+  distant_cross: Position; 
+  interval = null; 
 
   constructor(private postService: DashboardService) { }
 
 
   ngOnInit() {
   	this.getAreaData();
-    setInterval(() => {this.receiveRobotinoInfo();} ,2000); 
+    this.interval = setInterval(() => {this.receiveRobotinoInfo();} ,1000); 
+  }
+  ngOnDestroy(){
+    if(this.interval){
+      clearInterval(this.interval);
+    }
   }
   //toggle CrossButton, only one at a time
   toggleCrossButton(cross){
@@ -149,6 +157,9 @@ export class AreaComponent implements OnInit {
     for(let rect of this.rects){
       values.push(rect.value.value);
     }
+    let k_array = [];
+    this.kinexon_array.forEach((e)=>{k_array.push(JSON.stringify(e));});
+    let kinexon_content = k_array.toString();
     this.content = values.toString();
 
   	let data = { 
@@ -164,6 +175,7 @@ export class AreaComponent implements OnInit {
       cross2_left: this.cross2.left,
       cross2_top: this.cross2.top,
       content: this.content,
+      kinexon_content: kinexon_content,
   	};
   	this.postService.sendData(["area_write", data,null]).subscribe(
       null,  
@@ -244,54 +256,36 @@ export class AreaComponent implements OnInit {
     {
       console.warn("Bitte weiter auseinanderliegende Orte waehlen");
     }
-    let  e ,f, phi_kinexon, phi_pixel; 
+    let orientation; 
     if((c/a - d/b) < (c/ b - d/a))
     {
       this.xy.left= c/a * (a- this.cross2.x) + this.cross1.left; 
       this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top;
-      if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
-        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
-        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
-        e = this.cross1.left - this.xy.left;
-        f = this.cross1.top - this.xy.top;
-      }
-      else{
-        phi_kinexon = Math.atan(this.cross2.y / this.cross2.x);
-        phi_pixel = Math.atan(-(this.cross2.top- this.xy.top)/ (this.cross2.left-this.xy.left));
-        e = this.cross2.left - this.xy.left;
-        f = this.cross2.top - this.xy.top;
-      }
+      orientation = 0; 
     }
     else{
       this.xy.left = (c/b * (b- this.cross2.y)+ this.cross1.left);
       this.xy.top =  (d/a * (a -this.cross2.x) + this.cross1.top);
-      if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
-        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
-        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
-        f = this.cross1.left - this.xy.left;
-        e= this.cross1.top - this.xy.top;
-      }
-      else{
-        phi_kinexon = Math.atan(this.cross2.y / this.cross2.x);
-        phi_pixel = Math.atan(-(this.cross2.top- this.xy.top)/ (this.cross2.left-this.xy.left));
-        f = this.cross2.left - this.xy.left;
-        e = this.cross2.top - this.xy.top;
-      }
+      orientation = -90; 
     }
     console.log(this.xy.left + " "+ this.xy.top);
+    let  e ,f, phi_kinexon, phi_pixel; 
     if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
        e = this.cross1.left - this.xy.left;
-       f = this.cross1.top - this.xy.top;
+       f = this.cross1.top - this.xy.top;  
+       this.distant_cross = this.cross1;
     }
     else{
       phi_kinexon = Math.atan(this.cross2.y / this.cross2.x);
       phi_pixel = Math.atan(-(this.cross2.top- this.xy.top)/ (this.cross2.left-this.xy.left));
       e = this.cross2.left - this.xy.left;
       f = this.cross2.top - this.xy.top;
+      this.distant_cross = this.cross2
     }
     //this.xy.phi =  Math.acos((this.cross1.x * this.cross1.left  + this.cross1.y * this.cross1.top ) / (Math.sqrt(Math.pow(this.cross1.x ,2 ) + Math.pow(this.cross1.y,2) )  * (Math.sqrt(Math.pow(this.cross1.left ,2 ) +Math.pow(this.cross1.top,2 ) ) ) ) )  * 360 / (2 * Math.PI ); 
+     /*
     phi_pixel *=  360 / (2 * Math.PI) ;
     phi_kinexon *=  360 / (2 * Math.PI) ;
 
@@ -304,11 +298,17 @@ export class AreaComponent implements OnInit {
     else if(e <0 && f <  0)
       this.xy.phi =    180 + phi_kinexon - phi_pixel;
     console.log( this.xy.phi);
+    */
+    //TODO
+    this.xy.phi = orientation;
     this.xy.visible = true;
-    if(this.xy.left >= this.halle.x || this.xy.left <  0 || this.xy.top >= this.halle.y || this.xy.top < 0)
+    if(this.xy.left >= this.halle.x || this.xy.left <  0 || this.xy.top >= this.halle.y || this.xy.top < 0){
       this.xy.visible = false;
       console.warn("Nullpunkt außerhalb des Sichtfeldes");
+    } 
+    this.fillKinexonArray();
   }
+
   receiveRobotinoInfo(){
     if(this.robotino.visible){
       this.postService.sendData( ["robotino_pos", null, null]).subscribe(res => {
@@ -317,8 +317,9 @@ export class AreaComponent implements OnInit {
           let y = res["y"];
           if( x != null && y != null)
           {
-            this.robotino.left = x +20; 
-            this.robotino.top = y +20; 
+            let A =  this.getPixelFromKinexon(-90,x, y);
+            this.robotino.left = A[0] +20; 
+            this.robotino.top =  A[1] +20; 
           }
 
         }
@@ -332,5 +333,34 @@ export class AreaComponent implements OnInit {
        }
       );
     }
+  }
+
+  fillKinexonArray(){
+     this.rects.forEach((e, i) =>{
+       let A = this.getKinexonFromPixel(-90, e.x, e.y);
+       this.kinexon_array.push({
+         x: A[0],
+         y: A[1],
+         i: i, 
+       });
+     });
+  }
+  getKinexonFromPixel(orientation, left, top){
+    //TODO
+    if(orientation == -90) {
+       let x = Math.round(this.distant_cross.x /(this.distant_cross.top -this.xy.top) * (top-  this.xy.top));
+       let y = Math.round(this.distant_cross.y / (this.distant_cross.left -this.xy.left) * (left  - this.xy.left));
+       return [x,y]; 
+     }
+     return [0,0]; 
+  }
+  getPixelFromKinexon(orientation, x, y){
+    //TODO
+    if(orientation = -90){
+      let top = Math.round(x * (this.distant_cross.top - this.xy.top) / this.distant_cross.x + this.xy.top);
+      let left = Math.round(y * (this.distant_cross.left - this.xy.left) / this.distant_cross.y + this.xy.left);
+      return [left, top];
+    }
+    return [0,0];
   }
 }
