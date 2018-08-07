@@ -155,27 +155,15 @@ export class AreaComponent implements OnInit {
       name: this.name,
   		rows: this.rows,
   		cols: this.cols,
-      x: this.xy.left, 
-      y: this.xy.left,
-      phi: this.xy.phi,
-      mirrored: this.xy.mirrored,
-      scale_x_axis: 1,
-      scale_y_axis: 1,
+      cross1_x: this.cross1.x,
+      cross1_y: this.cross1.y,
+      cross1_left: this.cross1.left,
+      cross1_top: this.cross1.top,
+      cross2_x: this.cross2.x,
+      cross2_y: this.cross2.y,
+      cross2_left: this.cross2.left,
+      cross2_top: this.cross2.top,
       content: this.content,
-       /*
-
-  		point1: {
-  			top: this.top1,
-  			left: this.left1,
-  			x: this.x1,
-  			y: this.y1 
-  		},
-  		point2: {
-  			top: this.top2,
-  			left: this.left2,
-  			x: this.x2,
-  			y: this.y2
-  		},*/
   	};
   	this.postService.sendData(["area_write", data,null]).subscribe(
       null,  
@@ -192,11 +180,19 @@ export class AreaComponent implements OnInit {
             else if(res["NoData"] != true){
               this.name = res["name"];
               this.content =res["content"];
-              this.xy.top = res["y"];
-              this.xy.left = res["x"];
-              this.xy.phi = res["phi"];
+              this.cross1.x = res["cross1_x"];
+              this.cross1.y = res["cross1_y"];
+              this.cross1.left = res["cross1_left"];
+              this.cross1.top = res["cross1_top"];
+              this.cross2.x = res["cross2_x"];
+              this.cross2.y = res["cross2_y"];
+              this.cross2.left = res["cross2_left"];
+              this.cross2.top = res["cross2_top"];
               this.rows = res["rows"];
               this.cols = res["cols"];
+              this.cross1.visible = true; 
+              this.cross2.visible = true;
+              this.getAxis();
             }
             else{
               console.log("Keine Areadaten vorhanden");
@@ -210,7 +206,9 @@ export class AreaComponent implements OnInit {
          console.error("Error Backend Commmunication: "+error.message);
          this.generateRectArray();
        },
-       ()=> this.generateRectArray());     
+       ()=> {
+         this.generateRectArray();
+       });     
   }
   recieveTagData(i){
   	this.postService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
@@ -246,17 +244,41 @@ export class AreaComponent implements OnInit {
     {
       console.warn("Bitte weiter auseinanderliegende Orte waehlen");
     }
+    let  e ,f, phi_kinexon, phi_pixel; 
     if((c/a - d/b) < (c/ b - d/a))
     {
       this.xy.left= c/a * (a- this.cross2.x) + this.cross1.left; 
       this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top;
+      if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
+        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
+        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
+        e = this.cross1.left - this.xy.left;
+        f = this.cross1.top - this.xy.top;
+      }
+      else{
+        phi_kinexon = Math.atan(this.cross2.y / this.cross2.x);
+        phi_pixel = Math.atan(-(this.cross2.top- this.xy.top)/ (this.cross2.left-this.xy.left));
+        e = this.cross2.left - this.xy.left;
+        f = this.cross2.top - this.xy.top;
+      }
     }
     else{
       this.xy.left = (c/b * (b- this.cross2.y)+ this.cross1.left);
       this.xy.top =  (d/a * (a -this.cross2.x) + this.cross1.top);
+      if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
+        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
+        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
+        f = this.cross1.left - this.xy.left;
+        e= this.cross1.top - this.xy.top;
+      }
+      else{
+        phi_kinexon = Math.atan(this.cross2.y / this.cross2.x);
+        phi_pixel = Math.atan(-(this.cross2.top- this.xy.top)/ (this.cross2.left-this.xy.left));
+        f = this.cross2.left - this.xy.left;
+        e = this.cross2.top - this.xy.top;
+      }
     }
     console.log(this.xy.left + " "+ this.xy.top);
-    let  e ,f, phi_kinexon, phi_pixel; 
     if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){
        phi_kinexon = Math.atan(this.cross1.y / this.cross1.x);
        phi_pixel = Math.atan(-this.cross1.top/ this.cross1.left);
@@ -268,7 +290,6 @@ export class AreaComponent implements OnInit {
       phi_pixel = Math.atan(-(this.cross2.top- this.xy.top)/ (this.cross2.left-this.xy.left));
       e = this.cross2.left - this.xy.left;
       f = this.cross2.top - this.xy.top;
-      //this.xy.phi = phi_kinexon - phi_pixel;
     }
     //this.xy.phi =  Math.acos((this.cross1.x * this.cross1.left  + this.cross1.y * this.cross1.top ) / (Math.sqrt(Math.pow(this.cross1.x ,2 ) + Math.pow(this.cross1.y,2) )  * (Math.sqrt(Math.pow(this.cross1.left ,2 ) +Math.pow(this.cross1.top,2 ) ) ) ) )  * 360 / (2 * Math.PI ); 
     phi_pixel *=  360 / (2 * Math.PI) ;

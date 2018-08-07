@@ -7,6 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./manual-input.component.scss']
 })
 export class ManualInputComponent implements OnInit {
+  stopDriving = false;
 	data = {
 		x_value: null,
 		y_value: null,
@@ -33,7 +34,8 @@ export class ManualInputComponent implements OnInit {
   		this.send.emit(["manual", d]);
   }
    httpBreak(){
-      this.send.emit(["stopDrivingButton", null]);
+     this.stopDriving = !this.stopDriving;
+      this.send.emit(["stopDrivingButton", this.stopDriving]);
   }
 
 }

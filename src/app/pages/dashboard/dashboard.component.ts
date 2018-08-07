@@ -6,7 +6,7 @@ import {DashboardService } from '../../@core/data/dashboard.service';
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent {
+export class DashboardComponent {
 	program = ""; 
 	program_json = {
 		"0": "Unbestimmt",
