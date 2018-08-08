@@ -65,8 +65,8 @@ export class DashboardComponent {
 		let warehouse_message = null;  
 		let detail_message = detail_mes; 
 		if(!detail_mes) detail_message = null;  
-		if(main_message == "autotag" && !this.autotag)
-			return; 
+		//if(main_message == "autotag" && !this.autotag)
+		//	return; 
 	    if(main_message=="start" && !this.start)
 	      main_message = "stop";
 	  	if(main_message != "lager"){

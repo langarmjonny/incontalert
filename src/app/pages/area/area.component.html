@@ -51,8 +51,8 @@
   	<button class="btn btn-primary btn-icon input-group-text" (click)="toggleCrossButton(cross1)">
               <i class="nb-location"></i>
             </button>
-          <input type="number" class="form-control col-md-4" placeholder="X1" [(ngModel)]="cross1.x">
-          <input type="number" class="form-control col-md-4" placeholder="Y1" [(ngModel)]="cross1.y">
+          <input type="number" class="form-control col-md-4" placeholder="X1 in cm" [(ngModel)]="cross1.x">
+          <input type="number" class="form-control col-md-4" placeholder="Y1 in cm" [(ngModel)]="cross1.y">
           <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(cross1)">
             <i class="ion-arrow-shrink"></i>
           </button>
@@ -61,8 +61,8 @@
   	<button class="btn btn-primary btn-icon input-group-text"  (click)="toggleCrossButton(cross2)">
               <i class="nb-location"></i>
             </button>
-          <input type="number" class="form-control col-md-4" placeholder="X2" [(ngModel)]="cross2.x">
-          <input type="number" class="form-control col-md-4" placeholder="Y2" [(ngModel)]="cross2.y">
+          <input type="number" class="form-control col-md-4" placeholder="X2 in cm" [(ngModel)]="cross2.x">
+          <input type="number" class="form-control col-md-4" placeholder="Y2 in cm" [(ngModel)]="cross2.y">
           <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(cross2)">
             <i class="ion-arrow-shrink"></i>
           </button>
@@ -85,11 +85,19 @@
 <nb-card>
   <nb-card-header>Robotino Position </nb-card-header>
   <nb-card-body>
-    <div class=" col-md-6">
+    <div class="row">
+    <div class=" col-md-3">
     <button class="btn btn-primary "  (click)="robotino.visible = !robotino.visible">
               {{robotino.visible}}
     </button>
     </div>
+    <div class="col-md-3">
+        <h4 *ngIf="robotino.visible">X-Koordinate: {{robotino.x}} </h4>
+    </div>
+    <div class=" col-md-3">
+        <h4 *ngIf="robotino.visible">Y-Koordinate: {{robotino.y}}</h4>
+    </div>
+  </div>
   </nb-card-body>
 </nb-card>
 <nb-card>

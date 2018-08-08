@@ -225,7 +225,6 @@ export class AreaComponent implements OnInit {
   recieveTagData(i){
   	this.postService.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
       try{
-        console.log(i);
         if(res != null){
            i.x = res["x"];
            i.y = res["y"];
@@ -315,6 +314,8 @@ export class AreaComponent implements OnInit {
         try{
           let x = res["x"]; 
           let y = res["y"];
+          this.robotino.x = x;
+          this.robotino.y =y; 
           if( x != null && y != null)
           {
             let A =  this.getPixelFromKinexon(-90,x, y);

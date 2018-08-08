@@ -53,7 +53,18 @@ export class MachinesTableComponent {
         editor: {type: 'number'},
       },
     },
-  };
+    noDataMessage: "Keine Daten gefunden",
+    actions:{columnTitle  : "Aktionen",},
+  }
+  robotino = {
+    x: null,
+    y:null,
+  }
+  tag = {
+    x : null,
+    y : null,
+  }
+
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -87,5 +98,53 @@ export class MachinesTableComponent {
   onSaveConfirm(event) { 
     console.log(event.newData);
     this.service.sendData(["machine_write", {"mode": "edit", "value": event.newData} ,null]).subscribe();
+  }
+  receiveTagData(){
+    this.service.sendData(["get_benutzer_tag", null, null]).subscribe(res => {
+      try{
+        
+        if(res != null){
+           this.tag.x = res["x"];
+           this.tag.y= res["y"];
+
+        }
+        else{
+          console.log("Keine TagDaten");
+          this.tag.x = null;
+           this.tag.y= null;
+        }
+      }
+      catch(e)
+      {
+        console.error("Fehler TagDaten: "+e); 
+        this.tag.x = null;
+        this.tag.y= null;
+      }
+    });
+  }
+  receiveRobotinoData(){
+    this.service.sendData( ["robotino_pos", null, null]).subscribe(res => {
+        try{
+          if(res != null){
+            this.robotino.x = res["x"]; 
+            this.robotino.y = res["y"];
+          }
+          else{
+          console.log("Keine TagDaten");
+          this.robotino.x = null; 
+          this.robotino.y = null;
+          }
+        }
+        catch(e)
+        {
+          console.log("Fehler RobotinoDaten");
+          this.robotino.x = null; 
+          this.robotino.y = null;
+        }
+      },
+       error => {
+         console.error("Error Robotino Postion Backend Commmunication: "+error.message);
+       }
+      );
   }
 }
