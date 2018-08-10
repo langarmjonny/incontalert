@@ -7,15 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GrabSettingsComponent implements OnInit {
 	colors  = [{
-		name:"Schwarzes Teil",
+		name:"Schwarzes/linkes Teil",
 		id:1
 	},
 	{
-		name:"Rotes Teil",
+		name:"Rotes/mittleres Teil",
 		id:2
 	},
 	{
-		name:"Silbernes Teil",
+		name:"Silbernes/rechtes Teil",
 		id:3
 	}];
 	part= {name: "<Auswählen>", value: null};

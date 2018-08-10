@@ -19,7 +19,10 @@ export class DashboardComponent {
 		"7": "Fahre Kreis",
 		"8": "Suche Linie",
 		"9": "Fahre auf Linie",
-		"10": "Kalibibriere Richtung",
+		"10": "Fahre zurück",
+		"11": "Wechsle Spur",
+		"12": "Kalibibriere Richtung",
+		"13": "Warte auf neue Daten"
 
 	}
 	start = false ; 
