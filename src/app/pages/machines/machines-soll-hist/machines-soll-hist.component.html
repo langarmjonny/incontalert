@@ -8,9 +8,8 @@
     <ng2-smart-table 
     [settings]="settings" [source]="source" >
     </ng2-smart-table>
-    <div class="dropup btn-group"  placement="top" ngbDropdown>
-      <button type="button" class="btn btn-outline-primary" (click)="loadData();">{{number}}</button>
-      <button type="button"  class="btn btn-outline-primary" ngbDropdownToggle (click)="loadData()"></button>
+    <div class="dropdown ghost-dropdown"  placement="top" ngbDropdown>
+      <button class="btn btn-primary" type="button" ngbDropdownToggle (click)="loadData();">{{number}}</button>
       <ul class="dropdown-menu" ngbDropdownMenu>
         <li class="dropdown-item" *ngFor="let obj of numbers" (click)="number = obj; loadData()" >{{obj}}</li>
       </ul>

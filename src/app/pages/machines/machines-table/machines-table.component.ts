@@ -91,12 +91,9 @@ export class MachinesTableComponent {
 
   onCreateConfirm(event){
     let data  = event.newData();
-    console.log(data); 
-    console.log(this.source);
     this.service.sendData(["machine_write", {"mode": "add", "value": data} ,null]).subscribe();
   }
-  onSaveConfirm(event) { 
-    console.log(event.newData);
+  onSaveConfirm(event) {
     this.service.sendData(["machine_write", {"mode": "edit", "value": event.newData} ,null]).subscribe();
   }
   receiveTagData(){

@@ -59,7 +59,6 @@ export class MachinesSollHistComponent {
   loadData(){
     this.service.sendData(["machine_soll_hist", this.number ,null]).subscribe(res => {
         try{
-          console.log(res); 
           this.source.load(res["data"]);
 
           }
@@ -69,6 +68,6 @@ export class MachinesSollHistComponent {
           }
       });
     }
-  }
+  
 }
 
