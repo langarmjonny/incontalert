@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+ 
 @Component({
   selector: 'grab-settings',
   templateUrl: './grab-settings.component.html',

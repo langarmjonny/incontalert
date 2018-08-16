@@ -15,6 +15,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Liste',
         link: '/pages/machines/machines-table',
       },
+      {
+        title: 'Letzte Ziele',
+        link: '/pages/machines/machines-soll-hist',
+      },
     ],
   },
   {

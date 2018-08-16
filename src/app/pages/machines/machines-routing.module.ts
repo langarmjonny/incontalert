@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MachinesComponent } from './machines.component';
 import { MachinesTableComponent } from './machines-table/machines-table.component';
+import { MachinesSollHistComponent } from './machines-soll-hist/machines-soll-hist.component';
 
 const routes: Routes = [{
   path: '',
@@ -10,6 +11,9 @@ const routes: Routes = [{
   children: [{
     path: 'machines-table',
     component: MachinesTableComponent,
+  },{
+    path: 'machines-soll-hist',
+    component: MachinesSollHistComponent,
   }],
 }];
 
@@ -22,4 +26,5 @@ export class MachinesRoutingModule { }
 export const routedComponents = [
   MachinesComponent,
   MachinesTableComponent,
+  MachinesSollHistComponent,
 ];
