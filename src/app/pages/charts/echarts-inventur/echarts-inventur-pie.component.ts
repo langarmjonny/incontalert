@@ -1,36 +1,38 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, Input } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import {DashboardService } from '../../../@core/data/dashboard.service';
 
 @Component({
-  selector: 'ngx-echarts-pie',
+  selector: 'ngx-echarts-inventur-pie',
   template: `
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsPieComponent implements AfterViewInit, OnDestroy {
+export class EchartsInventurPieComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
   data: any; 
-  a = []
+  @Input() teil; 
   b= [];
   constructor(private theme: NbThemeService, private service: DashboardService) {
   }
 
   ngAfterViewInit() {
-    this.service.sendData(["pie_diagram", "robotino",null]).subscribe(res => {
-        
+    this.service.sendData(["pie_diagram", "inventur" ,this.teil]).subscribe(res => {
+        let s;
         try{
           this.data = res["data"];
+          s  = this.data[0]["name"];
+          let obj = {};
+          obj["value"]  = this.data[0]["anzahl"];
+          obj["name"]  = "Vorhanden";
+          this.b.push(obj);
+          obj = {};
+          obj["value"]  = this.data[0]["max"] - this.data[0]["anzahl"];
+          obj["name"]  = "Leer";
+          this.b.push(obj);
           
-           for(let i = 0;i < this.data.length; i++ ){
-              let s  = this.data[i]["x"]+"/" + this.data[i]["y"]+"/" +this.data[i]["phi"];
-              let obj = {};
-              obj["value"]  = this.data[i]["anzahl"];
-              obj["name"]  = s;
-              this.b.push(obj);
-              this.a.push( s);      
-            }
+            
           }
           catch(e)
           {
@@ -50,14 +52,14 @@ export class EchartsPieComponent implements AfterViewInit, OnDestroy {
               legend: {
                 orient: 'vertical',
                 left: 'left',
-                data:this.a,
+                data: ["Vorhanden", "Leer"],
                 textStyle: {
                   color: echarts.textColor,
                 },
               },
               series: [
                 {
-                  name: 'Koordinate',
+                  name: s,
                   type: 'pie',
                   radius: '80%',
                   center: ['50%', '50%'],

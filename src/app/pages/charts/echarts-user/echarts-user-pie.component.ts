@@ -3,12 +3,12 @@ import { NbThemeService } from '@nebular/theme';
 import {DashboardService } from '../../../@core/data/dashboard.service';
 
 @Component({
-  selector: 'ngx-echarts-pie',
+  selector: 'ngx-echarts-user-pie',
   template: `
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsPieComponent implements AfterViewInit, OnDestroy {
+export class EchartsUserPieComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
   data: any; 
@@ -18,7 +18,7 @@ export class EchartsPieComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.service.sendData(["pie_diagram", "robotino",null]).subscribe(res => {
+    this.service.sendData(["pie_diagram", "user" ,null]).subscribe(res => {
         
         try{
           this.data = res["data"];

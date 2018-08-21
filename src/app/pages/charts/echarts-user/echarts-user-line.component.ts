@@ -3,12 +3,12 @@ import { NbThemeService } from '@nebular/theme';
 import {DashboardService } from '../../../@core/data/dashboard.service';
 
 @Component({
-  selector: 'ngx-echarts-line',
+  selector: 'ngx-echarts-user-line',
   template: `
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsLineComponent implements AfterViewInit, OnDestroy {
+export class EchartsUserLineComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
 

@@ -1,14 +1,13 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import {DashboardService } from '../../../@core/data/dashboard.service';
 
 @Component({
-  selector: 'ngx-echarts-line',
+  selector: 'ngx-echarts-inventur-bar-animation',
   template: `
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsLineComponent implements AfterViewInit, OnDestroy {
+export class EchartsInventurBarAnimationComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
 
@@ -17,28 +16,27 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+      const xAxisData = [];
+      const data1 = [];
+      const data2 = [];
 
       const colors: any = config.variables;
       const echarts: any = config.variables.echarts;
 
       this.options = {
         backgroundColor: echarts.bg,
-        color: [colors.danger, colors.primary, colors.info],
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}',
-        },
+        color: [colors.primaryLight, colors.infoLight],
         legend: {
-          left: 'left',
-          data: ['Line 1', 'Line 2', 'Line 3'],
+          data: ['bar', 'bar2'],
+          align: 'left',
           textStyle: {
             color: echarts.textColor,
           },
         },
         xAxis: [
           {
-            type: 'category',
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            data: xAxisData,
+            silent: false,
             axisTick: {
               alignWithLabel: true,
             },
@@ -56,7 +54,6 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
         ],
         yAxis: [
           {
-            type: 'log',
             axisLine: {
               lineStyle: {
                 color: echarts.axisLineColor,
@@ -74,30 +71,35 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
             },
           },
         ],
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
-        },
         series: [
           {
-            name: 'Line 1',
-            type: 'line',
-            data: [1, 3, 9, 27, 81, 247, 741, 2223, 6669],
+            name: 'bar',
+            type: 'bar',
+            data: data1,
+            animationDelay: function(idx) {
+              return idx * 10;
+            },
           },
           {
-            name: 'Line 2',
-            type: 'line',
-            data: [1, 2, 4, 8, 16, 32, 64, 128, 256],
-          },
-          {
-            name: 'Line 3',
-            type: 'line',
-            data: [1 / 2, 1 / 4, 1 / 8, 1 / 16, 1 / 32, 1 / 64, 1 / 128, 1 / 256, 1 / 512],
+            name: 'bar2',
+            type: 'bar',
+            data: data2,
+            animationDelay: function(idx) {
+              return idx * 10 + 100;
+            },
           },
         ],
+        animationEasing: 'elasticOut',
+        animationDelayUpdate: function(idx) {
+          return idx * 5;
+        },
       };
+
+      for (let i = 0; i < 100; i++) {
+        xAxisData.push('Category ' + i);
+        data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
+        data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+      }
     });
   }
 

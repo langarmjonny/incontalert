@@ -6,7 +6,7 @@ import { StatusCardComponent } from './status-card/status-card.component';
 import { ManualInputComponent } from './manual-input/manual-input.component';
 import { NavigationButtonsComponent } from './navigation-buttons/navigation-buttons.component';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { ModalComponent } from './modal/modal.component';
 import {MachinesTableService } from '../../@core/data/machines-table.service';
 import { GrabSettingsComponent } from './grab-settings/grab-settings.component';
 
@@ -21,9 +21,13 @@ import { GrabSettingsComponent } from './grab-settings/grab-settings.component';
     ManualInputComponent,
     NavigationButtonsComponent,
     GrabSettingsComponent,
+    ModalComponent,
   ],
    providers: [
     MachinesTableService,
   ],
+    entryComponents: [
+    ModalComponent,
+    ],
 })
 export class DashboardModule { }

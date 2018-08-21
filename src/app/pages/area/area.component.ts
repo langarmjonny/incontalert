@@ -149,6 +149,7 @@ export class AreaComponent implements OnInit {
     rect.value = this.difficulty;  
   }
   refresh(){
+    this.content = "";
   	this.generateRectArray();
   }
   save(){

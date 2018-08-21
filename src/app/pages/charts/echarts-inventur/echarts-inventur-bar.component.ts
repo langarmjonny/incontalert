@@ -2,12 +2,12 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import {DashboardService } from '../../../@core/data/dashboard.service';
 @Component({
-  selector: 'ngx-echarts-bar',
+  selector: 'ngx-echarts-inventur-bar',
   template: `
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsBarComponent implements AfterViewInit, OnDestroy {
+export class EchartsInventurBarComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
   data: any; 
@@ -15,7 +15,7 @@ export class EchartsBarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.service.sendData(["bar_diagram_week", "robotino" ,null]).subscribe(res => {
+    this.service.sendData(["bar_diagram_week", "inventur" ,null]).subscribe(res => {
         let a = [0,0,0,0,0,0,0];
         try{
           this.data = res["data"];

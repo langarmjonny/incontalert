@@ -32,15 +32,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Robotino',
-        link: '/pages/charts/echarts',
+        link: '/pages/charts/robotino',
       },
       {
         title: 'User',
-        link: '/pages/charts/chartjs',
+        link: '/pages/charts/user',
       },
       {
         title: 'Inventur',
-        link: '/pages/charts/d3',
+        link: '/pages/charts/inventur',
       },
     ],
   },
