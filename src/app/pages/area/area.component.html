@@ -33,13 +33,13 @@
 </nb-card-header>
   <nb-card-body #halle_container>
 	<img #halle src="assets/images/Hallenplan.png" (click)="changePosition($event)">
-	<img id="x1" [ngStyle]="{'top.px': cross1.top, 'left.px': cross1.left }" src="assets/images/Kreuz.png" *ngIf = "cross1.visible">
-  <img id="x2" [ngStyle]="{'top.px': cross2.top, 'left.px': cross2.left }" src="assets/images/Kreuz.png" *ngIf="cross2.visible">
-   <img id="xy" [ngStyle]="{'top.px': xy.top, 'left.px': xy.left  , 'transform': 'rotate('+xy.phi+'deg)'}" src="assets/images/XY.png" *ngIf="xy.visible">
+	<img id="x1" [ngStyle]="{'top.px': cross1.top - 15, 'left.px': cross1.left -15 }" src="assets/images/Kreuz.png" *ngIf = "cross1.visible">
+  <img id="x2" [ngStyle]="{'top.px': cross2.top -15, 'left.px': cross2.left -15}" src="assets/images/Kreuz.png" *ngIf="cross2.visible">
+   <img id="xy" [ngStyle]="{'top.px': xy.top -15, 'left.px': xy.left -15  , 'transform': 'rotate('+xy.phi+'deg)'}" src="assets/images/XY.png" *ngIf="xy.visible">
   <svg *ngIf="!point1 && !point2">
     <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);"/>  
   </svg>
-  <img id="robotino" [ngStyle]="{'top.px': robotino.top, 'left.px': robotino.left}" src="assets/images/robotino_oben.png" *ngIf="robotino.visible">
+  <img id="robotino" [ngStyle]="{'top.px': robotino.top -20, 'left.px': robotino.left -20}" src="assets/images/robotino_oben.png" *ngIf="robotino.visible">
 </nb-card-body>
 </nb-card>
 

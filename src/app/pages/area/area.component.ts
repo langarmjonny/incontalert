@@ -48,7 +48,6 @@ class AdvancedPosition extends Position{
   styleUrls: ['./area.component.scss']
 })
 export class AreaComponent implements OnInit {
-
 	point1: boolean = false;
 	point2: boolean = false;
   halle = {y: 497, x:  1543};
@@ -96,13 +95,13 @@ export class AreaComponent implements OnInit {
   changePosition(e){
   	if(this.point1) {
   		this.cross1.visible = true;
-	  	this.cross1.left = e.offsetX -15 ;
-	  	this.cross1.top =  e.offsetY -15;
+	  	this.cross1.left = e.offsetX  ;
+	  	this.cross1.top =  e.offsetY ;
   	}
   	if(this.point2) {
   		this.cross2.visible = true;
-  	  this.cross2.left =  e.offsetX -15;
-  	  this.cross2.top =  e.offsetY -15 ;
+  	  this.cross2.left =  e.offsetX;
+  	  this.cross2.top =  e.offsetY  ;
   	}
   }
   generateRectArray(){
@@ -153,6 +152,7 @@ export class AreaComponent implements OnInit {
   	this.generateRectArray();
   }
   save(){
+    //Bei Speichern
     this.getAxis();
     let values = []; 
     for(let rect of this.rects){
@@ -257,11 +257,11 @@ export class AreaComponent implements OnInit {
       console.warn("Bitte weiter auseinanderliegende Orte waehlen");
     }
     let orientation; 
-    if((c/a - d/b) < (c/ b - d/a))
+    if(Math.abs(c/a - d/b) < Math.abs(c/ b - d/a))
     {
       this.xy.left= c/a * (a- this.cross2.x) + this.cross1.left; 
       this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top;
-      orientation = 0; 
+      orientation = 0;
     }
     else{
       this.xy.left = (c/b * (b- this.cross2.y)+ this.cross1.left);
@@ -320,8 +320,8 @@ export class AreaComponent implements OnInit {
           if( x != null && y != null)
           {
             let A =  this.getPixelFromKinexon(-90,x, y);
-            this.robotino.left = A[0] +20; 
-            this.robotino.top =  A[1] +20; 
+            this.robotino.left = A[0] ; 
+            this.robotino.top =  A[1] ; 
           }
 
         }
