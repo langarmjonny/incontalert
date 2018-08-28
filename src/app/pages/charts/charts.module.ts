@@ -40,6 +40,7 @@ import { EchartsUserMultipleXaxisComponent } from './echarts-user/echarts-user-m
 import {EchartsUserAreaStackComponent } from './echarts-user/echarts-user-area-stack.component';
 import {EchartsUserBarAnimationComponent } from './echarts-user/echarts-user-bar-animation.component';
 import { EchartsUserRadarComponent } from './echarts-user/echarts-user-radar.component';
+import {EchartsInventurBubblemapComponent } from './echarts-inventur/echarts-inventur-bubblemap.component';
 
 const components = [
 /*
@@ -77,6 +78,7 @@ const components = [
   EchartsUserAreaStackComponent,
   EchartsUserBarAnimationComponent,
   EchartsUserRadarComponent,
+  EchartsInventurBubblemapComponent
 ];
 
 @NgModule({
