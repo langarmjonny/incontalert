@@ -1,17 +1,17 @@
 <div class="row">
   <div class="col-xxxl-6 col-md-6">
-    <ngx-status-card title="Programmstart" type="success" (stateChange)="start = $event; autotag = false; httpSend('start');"[on]="start" >
+    <ngx-status-card title="Programmstart" type="success" (stateChange)="start = $event; autotag = false; httpSend('start', null);"[on]="start" >
       <i class="nb-power"></i>
     </ngx-status-card>
   </div>
 
   <div class="col-xxxl-6 col-md-6" *ngIf="start" >
-    <ngx-status-card title="AutoTag" type="warning" (stateChange)="autotag = $event;lager_fahren=false;httpSend('autotag');" [on]="autotag">
+    <ngx-status-card title="AutoTag" type="warning" (stateChange)="autotag = $event;lager_fahren=false;httpSend('autotag', null);" [on]="autotag">
       <i class="ion nb-loop"></i>
     </ngx-status-card>
   </div>
   <div class="col-xxxl-6 col-md-6" *ngIf="start" >
-    <ngx-status-card title="Aus Lager holen" type="primary" (stateChange)="lager_fahren = $event; autotag = false;httpSend('lager');" [on]="lager_fahren">
+    <ngx-status-card title="Aus Lager holen" type="primary" (stateChange)="lager_fahren = $event; autotag = false;httpSend('lager', null);" [on]="lager_fahren">
       <i class="ion-arrow-return-left"></i>
     </ngx-status-card>
   </div>
@@ -34,7 +34,7 @@
     <manual-input [stop_driving]="stop_driving" (send)="httpSend($event[0] , $event[1])"></manual-input>
   </div> 
   <div class="col-xxxl-6 col-md-6">
-    <navigation-buttons (send)="httpSend($event)"></navigation-buttons>
+    <navigation-buttons (send)="httpSend($event, null)"></navigation-buttons>
   </div> 
 </div>
 <div class="row" *ngIf="lager_fahren && start">

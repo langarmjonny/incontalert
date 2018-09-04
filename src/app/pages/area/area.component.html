@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <div class="example-container toggle-types">
           
-          <div [(ngModel)]="radioModel" ngbRadioGroup
+          <div  ngbRadioGroup
                class="btn-group btn-group-toggle btn-outline-toggle-group btn-group-full-width btn-toggle-radio-group" >
             <label ngbButtonLabel class="btn btn-outline-primary">
               <input ngbButton type="radio" [value]="values[1]" [(ngModel)]="difficulty"> Schnell
@@ -37,7 +37,7 @@
   <img id="x2" [ngStyle]="{'top.px': cross2.top -15, 'left.px': cross2.left -15}" src="assets/images/Kreuz.png" *ngIf="cross2.visible">
    <img id="xy" [ngStyle]="{'top.px': xy.top -15, 'left.px': xy.left -15  , 'transform': 'rotate('+xy.phi+'deg)'}" src="assets/images/XY.png" *ngIf="xy.visible">
   <svg *ngIf="!point1 && !point2">
-    <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);"/>  
+    <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);" />  
   </svg>
   <img id="robotino" [ngStyle]="{'top.px': robotino.top -20, 'left.px': robotino.left -20}" src="assets/images/robotino_oben.png" *ngIf="robotino.visible">
 </nb-card-body>

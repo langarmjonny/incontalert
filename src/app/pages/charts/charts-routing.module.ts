@@ -5,8 +5,7 @@ import { ChartsComponent } from './charts.component';
 import { EchartsComponent } from './echarts/echarts.component';
 import { EchartsUserComponent } from './echarts-user/echarts-user.component';
 import { EchartsInventurComponent } from './echarts-inventur/echarts-inventur.component';
-import { D3Component } from './d3/d3.component';
-import { ChartjsComponent } from './chartjs/chartjs.component';
+
 
 const routes: Routes = [{
   path: '',

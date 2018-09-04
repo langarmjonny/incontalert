@@ -42,10 +42,12 @@ class AdvancedPosition extends Position{
 @Component({
   selector: 'bubblemap',
   template: `
+  <div #halle_container>
    <img #halle src="assets/images/Hallenplan.png" >
 	<svg  *ngFor ="let b of bubbles">
-	<circle nbPopover="Entnommene Teile: {{b.anzahl}}" nbPopoverMode="hint" nbPopoverPlacement="top" [ngStyle]="{'fill': b.color, 'cx':b.x, 'cy':b.y , 'r':b.r }" *ngFor ="let b of bubbles"/>
+	<circle  nbPopover="Koordinate: {{b.x_kinexon}}/{{b.y_kinexon}} \nEntnommene {{b.name}}: {{b.anzahl}}" nbPopoverMode="hint" nbPopoverPlacement="top" [ngStyle]="{'fill': b.color, 'cx':b.x, 'cy':b.y , 'r':b.r }" *ngFor ="let b of bubbles"/>
 	</svg>
+	</div>
   `,
   styles:[`
   circle{
@@ -90,8 +92,14 @@ export class EchartsInventurBubblemapComponent  {
   teil_color ={
   	'1': '#000000',
   	'2': '#ff0000',
-  	'3': '#555555',
+  	'3': '#A7C7C6',
   	'0': '#a59d9d'
+  }
+  teil_name ={
+  	'1': 'schwarze Teile',
+  	'2': 'rote Teile',
+  	'3': 'silberne Teile',
+  	'0': 'unbekannte Teile'
   }
   bubbles =[]; 
 
@@ -306,14 +314,35 @@ export class EchartsInventurBubblemapComponent  {
 		for(let d of this.data)
 		{
 			let xy = this.getPixelFromKinexon(-90, d["x"], d["y"]); 
-			let r = Math.sqrt(d["anzahl"] / max_anz) * 50;
-			this.bubbles.push({
-				x: xy[0],
-				y: xy[1],
-				r: r,
-				color: this.teil_color[d["teil"]],
-				anzahl: d["anzahl"] 
-			})
+			let r = Math.sqrt(d["anzahl"] / max_anz) * 30;
+			let near_bubble = this.isNearBubble(d);
+			if( near_bubble == null){
+				this.bubbles.push({
+					x_kinexon: d["x"],
+					y_kinexon:  d["y"],
+					x: xy[0],
+					y: xy[1],
+					r: r,
+					teil: d["teil"], 
+					color: this.teil_color[d["teil"]],
+					name: this.teil_name[d["teil"]],
+					anzahl: d["anzahl"] 
+				});
+			}
+			else{
+				near_bubble.anzahl +=  d["anzahl"]; 
+			}
+
 		}
+	}
+	isNearBubble(x){
+		for(let b of this.bubbles){
+			if(b.teil ==  x["teil"])
+			{
+				if(Math.sqrt(Math.pow(b.x_kinexon - x["x"],2 )+Math.pow(b.y_kinexon - x["y"],2 ))<=30)
+					return b; 
+			}
+		}
+		return null; 
 	}
 }
