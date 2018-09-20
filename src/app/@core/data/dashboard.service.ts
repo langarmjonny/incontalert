@@ -12,7 +12,8 @@ const httpOptions= {
 
 @Injectable()
 export class DashboardService {
-	url: string = 'http://localhost:8080/RobotinoApp/Servlet'; 
+	//url: string = 'http://192.168.0.100:8080/RobotinoApp/Servlet'; 
+  url: string = 'http://127.0.0.1:8080/RobotinoApp/Servlet'; 
   constructor(private http: HttpClient) { }
 
   sendData(data: any){

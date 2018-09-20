@@ -9,11 +9,12 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ModalComponent } from './modal/modal.component';
 import {MachinesTableService } from '../../@core/data/machines-table.service';
 import { GrabSettingsComponent } from './grab-settings/grab-settings.component';
-
+import { ToasterModule } from 'angular2-toaster';
 
 @NgModule({
   imports: [
     ThemeModule,
+    ToasterModule,
   ],
   declarations: [
     DashboardComponent,

@@ -2,6 +2,8 @@ import { Component , ViewChild,  OnInit, OnDestroy} from '@angular/core';
 import {DashboardService } from '../../@core/data/dashboard.service';
 import { ModalComponent } from './modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import 'style-loader!angular2-toaster/toaster.css';
 @Component({
   selector: 'ngx-dashboard',
   styleUrls: ['./dashboard.component.scss'],
@@ -42,9 +44,18 @@ export class DashboardComponent {
 	program_value = 0; 
 	@ViewChild('lager') lager;
 	
-	constructor(private service : DashboardService, private modalService: NgbModal){
+	
+	constructor(private service : DashboardService, private modalService: NgbModal,private toasterService: ToasterService){
 	}
-
+	config = new ToasterConfig({
+		      positionClass: 'toast-top-right',
+		      timeout: 5000,
+		      newestOnTop:true,
+		      tapToDismiss: true,
+		      preventDuplicates: false,
+		      animation: 'fade',
+		      limit: 5,
+		    });
 	ngOnInit(){
 		this.service.sendData(["info_start",null, null]).subscribe(res => {
 			if(res != null ){
@@ -72,7 +83,22 @@ export class DashboardComponent {
 			clearInterval(this.interval);
 		}
 	}
+  	private showToast(type: string, title: string, body: string) {
+		   
+		    const toast: Toast = {
+		      type: type,
+		      title: title,
+		      body: body,
+		      timeout:5000,
+		      showCloseButton: false,
+		      bodyOutputType: BodyOutputType.TrustedHtml,
+		    };
+		    this.toasterService.popAsync(toast);
+		  }
 
+		  clearToasts() {
+		    this.toasterService.clear();
+		  }
 	httpSend(main_mes: any, detail_mes:any){
 		let main_message = main_mes;
 		let message: any;
@@ -114,7 +140,8 @@ export class DashboardComponent {
 		            console.log("Keine Programmdaten erhalten");
 		          }
 		          else{
-		          	let x = res["program"]; 
+		          	let x = res["program"];
+		          	
 		          	this.program = this.program_json[x];
 		          	this.program_value = x;
 		          }

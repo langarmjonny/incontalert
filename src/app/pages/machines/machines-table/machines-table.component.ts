@@ -90,7 +90,7 @@ export class MachinesTableComponent {
   }
 
   onCreateConfirm(event){
-    let data  = event.newData();
+    let data  = event.newData;
     this.service.sendData(["machine_write", {"mode": "add", "value": data} ,null]).subscribe();
   }
   onSaveConfirm(event) {

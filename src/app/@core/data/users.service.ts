@@ -8,12 +8,8 @@ let counter = 0;
 export class UserService {
 
   private users = {
-    nick: { name: 'Nicolas Ruhland', picture: 'assets/images/Nicolas_Ruhland.jpg' },
-    eva: { name: 'Eva Moor', picture: 'assets/images/eva.png' },
-    jack: { name: 'Thomas Küfner', picture: 'assets/images/jack.png' },
-    lee: { name: 'Lee Wong', picture: 'assets/images/lee.png' },
-    alan: { name: 'Alan Thompson', picture: 'assets/images/alan.png' },
-    kate: { name: 'Kate Martinez', picture: 'assets/images/kate.png' },
+    nico: { name: 'Nicolas Ruhland', picture: 'assets/images/Nicolas_Ruhland.jpg' },
+    thomas: { name: 'Thomas Küfner', picture: 'assets/images/Thomas_Kuefner.jpg' },
   };
 
   private userArray: any[];

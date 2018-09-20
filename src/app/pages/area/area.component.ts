@@ -32,15 +32,17 @@ class Position{
     this.visible = !this.visible; 
   }
 }
+
 class AdvancedPosition extends Position{
   phi = 0; 
-  mirrored = false;
-  constructor(top: number,left: number , x: number, y: number, phi:number, mirrored: boolean){
+  // not mirrored, -1 mirrored
+  mirrored = 1;
+  constructor(top: number,left: number , x: number, y: number, phi:number){
     super(top, left, x,y); 
-    this.phi = phi;
-    this.mirrored = mirrored; 
+    this.phi = phi; 
   }
 }
+
 
 @Component({
   selector: 'area',
@@ -60,12 +62,14 @@ export class AreaComponent implements OnInit {
 	difficulty= this.values[1];
   cross1 = new Position(10,10, null,null);
   cross2 = new Position(20,20,null ,null);
-  xy = new AdvancedPosition(100, 100 , 0 , 0, 0, false); 
+  xy = new AdvancedPosition(100, 100 , 0 , 0, 0); 
   robotino = new Position(0, 0 , null ,null); 
   kinexon_array = [];
   distant_cross: Position; 
   interval = null; 
-
+  orientation = 0; 
+  //Gibt an, ob x in Richtung left lauft;
+  x_left: boolean; 
   constructor(private postService: DashboardService) { }
 
 
@@ -240,7 +244,7 @@ export class AreaComponent implements OnInit {
       }
     });
   }
-  getAxis(){
+  /*getAxis(){
     let a = this.cross2.x -this.cross1.x;
     let b = this.cross2.y -this.cross1.y; 
     let c = this.cross2.left -this.cross1.left; 
@@ -284,21 +288,7 @@ export class AreaComponent implements OnInit {
       f = this.cross2.top - this.xy.top;
       this.distant_cross = this.cross2
     }
-    //this.xy.phi =  Math.acos((this.cross1.x * this.cross1.left  + this.cross1.y * this.cross1.top ) / (Math.sqrt(Math.pow(this.cross1.x ,2 ) + Math.pow(this.cross1.y,2) )  * (Math.sqrt(Math.pow(this.cross1.left ,2 ) +Math.pow(this.cross1.top,2 ) ) ) ) )  * 360 / (2 * Math.PI ); 
-     /*
-    phi_pixel *=  360 / (2 * Math.PI) ;
-    phi_kinexon *=  360 / (2 * Math.PI) ;
-
-    if(e >= 0 && f >= 0)
-      this.xy.phi = phi_kinexon - phi_pixel;
-    else if(e <0 && f >=  0)
-      this.xy.phi =  180 + phi_kinexon - phi_pixel;
-    else if(e >=0 && f <  0)
-      this.xy.phi =  phi_kinexon - phi_pixel;
-    else if(e <0 && f <  0)
-      this.xy.phi =    180 + phi_kinexon - phi_pixel;
-    console.log( this.xy.phi);
-    */
+    
     //TODO
     this.xy.phi = orientation;
     this.xy.visible = true;
@@ -306,6 +296,63 @@ export class AreaComponent implements OnInit {
       this.xy.visible = false;
       console.warn("Nullpunkt außerhalb des Sichtfeldes");
     } 
+    this.fillKinexonArray();
+  }*/
+  getAxis(){
+    //a,b,c,d fuer weitere Berechnungen benoetigt
+    let a = this.cross2.x -this.cross1.x;
+    let b = this.cross2.y -this.cross1.y; 
+    let c = this.cross2.left -this.cross1.left; 
+    let d = this.cross2.top -this.cross1.top;  
+    // Wenn kein 2D Raum aufgespannt wird
+    if(a == 0 || b == 0 ){
+      console.error("Kein eindeutiges Koordinatensystem");
+      return; 
+    }
+    //Wanung wenn Werte zu nah beieinanderliegen
+    let ab_warning = 200; 
+    if( Math.abs(a) < ab_warning || Math.abs(b) < ab_warning )
+    {
+      console.warn("Bitte weiter auseinanderliegende Orte waehlen");
+    }
+    let phi: number; 
+    //wenn c/a das gleiche Verhaeltnis hat wie d/b , dann zeigt  x in +/- left
+    //+/- entscheidet sich mit dem Vorzeichen
+    if(Math.abs(c/a) -Math.abs( d/b) < Math.abs(c/ b) - Math.abs(d/a))
+    {
+      // x Richtung left
+      this.xy.left= c/a * (a- this.cross2.x) + this.cross1.left; 
+      this.xy.top = d/b * (b -this.cross2.y) + this.cross1.top
+      this.x_left = true; 
+      this.setOrientation(c/a, d/b); 
+    }
+    else{
+      // x Richtung top 
+      this.xy.left = (c/b * (b- this.cross2.y)+ this.cross1.left);
+      this.xy.top =  (d/a * (a -this.cross2.x) + this.cross1.top);
+      this.x_left = false;
+      this.setOrientation(d/a,c/b); 
+    }  
+    //Durch die Spiegelung der Y-Achse muss nocheinaml weiter gedreht werden
+    if(this.xy.mirrored == -1){
+      phi = -90;
+    } 
+    else{
+      phi = 0; 
+    }
+    //Drehung des Koordinatensystems
+    this.xy.phi = this.orientation + phi;
+    this.xy.visible = true;
+    if(this.xy.left >= this.halle.x || this.xy.left <  0 || this.xy.top >= this.halle.y || this.xy.top < 0){
+      this.xy.visible = false;
+      console.warn("Nullpunkt außerhalb des Sichtfeldes");
+    } 
+    if((Math.pow(this.cross1.x,2)+Math.pow(this.cross1.y,2)) > (Math.pow(this.cross2.x,2)+Math.pow(this.cross2.y,2))){  
+       this.distant_cross = this.cross1;
+    }
+    else{
+      this.distant_cross = this.cross2;
+    }
     this.fillKinexonArray();
   }
 
@@ -319,7 +366,7 @@ export class AreaComponent implements OnInit {
           this.robotino.y =y; 
           if( x != null && y != null)
           {
-            let A =  this.getPixelFromKinexon(-90,x, y);
+            let A =  this.getPixelFromKinexon(x, y);
             this.robotino.left = A[0] ; 
             this.robotino.top =  A[1] ; 
           }
@@ -339,7 +386,7 @@ export class AreaComponent implements OnInit {
 
   fillKinexonArray(){
      this.rects.forEach((e, i) =>{
-       let A = this.getKinexonFromPixel(-90, e.x, e.y);
+       let A = this.getKinexonFromPixel( e.x, e.y);
        this.kinexon_array.push({
          x: A[0],
          y: A[1],
@@ -347,22 +394,68 @@ export class AreaComponent implements OnInit {
        });
      });
   }
-  getKinexonFromPixel(orientation, left, top){
-    //TODO
-    if(orientation == -90) {
+  getKinexonFromPixel( left, top){
+    if(!this.x_left) {
        let x = Math.round(this.distant_cross.x /(this.distant_cross.top -this.xy.top) * (top-  this.xy.top));
        let y = Math.round(this.distant_cross.y / (this.distant_cross.left -this.xy.left) * (left  - this.xy.left));
        return [x,y]; 
      }
-     return [0,0]; 
+     else  {
+       let x = Math.round(this.distant_cross.y /(this.distant_cross.top -this.xy.top) * (top-  this.xy.top));
+       let y = Math.round(this.distant_cross.x / (this.distant_cross.left -this.xy.left) * (left  - this.xy.left));
+       return [x,y]; 
+     }
   }
-  getPixelFromKinexon(orientation, x, y){
-    //TODO
-    if(orientation = -90){
+  getPixelFromKinexon( x, y){
+    console.log(this.distant_cross )
+    if(!this.x_left){
       let top = Math.round(x * (this.distant_cross.top - this.xy.top) / this.distant_cross.x + this.xy.top);
       let left = Math.round(y * (this.distant_cross.left - this.xy.left) / this.distant_cross.y + this.xy.left);
       return [left, top];
     }
-    return [0,0];
+    else {
+      let top = Math.round(y * (this.distant_cross.top - this.xy.top) / this.distant_cross.y + this.xy.top);
+      let left = Math.round(x * (this.distant_cross.left - this.xy.left) / this.distant_cross.x + this.xy.left);
+      return [left, top];
+    }
+  }
+  setOrientation(x_d, y_d){
+    if(this.x_left){
+      //>0 bedeuted in Richtung left/top , <0 gegen die Richutung
+        if(x_d >0 && y_d >0){
+          this.orientation = 90; 
+          this.xy.mirrored  = -1;
+        }
+        if(x_d <=0 && y_d >0){
+          this.orientation = -180; 
+          this.xy.mirrored  = 1;
+        }
+        if(x_d <=0 && y_d <=0){
+          this.orientation = -90; 
+          this.xy.mirrored  = -1;
+        }
+        if(x_d >0 && y_d <=0){
+          this.orientation = 0; 
+          this.xy.mirrored  = 1;
+        }
+    }
+    else{
+       if(x_d >0 && y_d >0){
+          this.orientation = 90; 
+          this.xy.mirrored  = +1;
+        }
+        if(x_d <=0 && y_d >0){
+          this.orientation = -180; 
+          this.xy.mirrored  = -1;
+        }
+        if(x_d <=0 && y_d <=0){
+          this.orientation = -90; 
+          this.xy.mirrored  = +1;
+        }
+        if(x_d >0 && y_d <=0){
+          this.orientation = 0; 
+          this.xy.mirrored  = -1;
+        }
+    }
   }
 }
