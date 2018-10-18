@@ -69,20 +69,12 @@ export class EchartsPieComponent implements AfterViewInit, OnDestroy {
                       shadowColor: echarts.itemHoverShadowColor,
                     },
                   },
-                  label: {
-                    normal: {
-                      textStyle: {
-                        color: echarts.textColor,
-                      },
-                    },
-                  },
-                  labelLine: {
-                    normal: {
-                      lineStyle: {
-                        color: echarts.axisLineColor,
-                      },
-                    },
-                  },
+                  label : {
+                                   show : false
+                                  },
+                         labelLine : {
+                                       show : false
+                                      },
                 },
               ],
             };

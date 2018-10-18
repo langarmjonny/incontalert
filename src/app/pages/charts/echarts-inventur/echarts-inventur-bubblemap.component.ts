@@ -329,7 +329,6 @@ export class EchartsInventurBubblemapComponent  {
      }
   }
   getPixelFromKinexon( x, y){
-    console.log(this.distant_cross )
     if(!this.x_left){
       let top = Math.round(x * (this.distant_cross.top - this.xy.top) / this.distant_cross.x + this.xy.top);
       let left = Math.round(y * (this.distant_cross.left - this.xy.left) / this.distant_cross.y + this.xy.left);
