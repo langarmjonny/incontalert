@@ -27,8 +27,8 @@ import { StateService } from '../../../@core/data/state.service';
                    responsive
                    [end]="sidebar.id === 'end'">
         <nb-sidebar-header>
-          <a href="#" class="btn btn-hero-success main-btn">
-            <i class="ion ion-android-compass"></i> <span>Navigation</span>
+          <a href="#" class="btn btn-hero-primary main-btn">
+            <i class="ion ion-heart"></i><span>IncontAlert</span>
           </a>
         </nb-sidebar-header>
         <ng-content select="nb-menu"></ng-content>
@@ -38,13 +38,7 @@ import { StateService } from '../../../@core/data/state.service';
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
 
-      <nb-layout-column start class="small" *ngIf="layout.id === 'two-column' || layout.id === 'three-column'">
-        <nb-menu [items]="subMenu"></nb-menu>
-      </nb-layout-column>
 
-      <nb-layout-column class="small" *ngIf="layout.id === 'three-column'">
-        <nb-menu [items]="subMenu"></nb-menu>
-      </nb-layout-column>
 
       <nb-layout-footer fixed>
         <ngx-footer></ngx-footer>

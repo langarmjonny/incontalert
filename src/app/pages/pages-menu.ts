@@ -8,41 +8,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Orte',
-    icon: 'nb-close-circled',
-    children: [
-      {
-        title: 'Liste',
-        link: '/pages/machines/machines-table',
-      },
-      {
-        title: 'Letzte Ziele',
-        link: '/pages/machines/machines-soll-hist',
-      },
-    ],
-  },
-  {
-    title: 'Bereich',
-    icon: 'nb-keypad',
-    link: '/pages/area',
-  },
-  {
-    title: 'Statistiken',
+    title: 'Persönliches',
     icon: 'nb-bar-chart',
-    children: [
-      {
-        title: 'Robotino',
-        link: '/pages/charts/robotino',
-      },
-      {
-        title: 'User',
-        link: '/pages/charts/user',
-      },
-      {
-        title: 'Inventur',
-        link: '/pages/charts/inventur',
-      },
-    ],
+    link: '/pages/area',
   },
   {
     title: 'User',
@@ -66,5 +34,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  
+
 ];

@@ -1,25 +1,22 @@
 
 <nb-card>
-  <nb-card-header>Schwierigkeit 
+  <nb-card-header>Blasenbelastbarkeit
   </nb-card-header>
   <nb-card-body>
     <div class="row">
       <div class="col-md-12">
         <div class="example-container toggle-types">
-          
+
           <div  ngbRadioGroup
                class="btn-group btn-group-toggle btn-outline-toggle-group btn-group-full-width btn-toggle-radio-group" >
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" [value]="values[1]" [(ngModel)]="difficulty"> Schnell
+              <input ngbButton type="radio" [value]="values[1]" [(ngModel)]="difficulty"> Kaum
             </label>
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" [value]="values[2]" [(ngModel)]="difficulty"> Langsam
+              <input ngbButton type="radio" [value]="values[2]" [(ngModel)]="difficulty"> Mittel
             </label>
             <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" [value]="values[3]" [(ngModel)]="difficulty"> Bedingt Befahrbar
-            </label>
-            <label ngbButtonLabel class="btn btn-outline-primary">
-              <input ngbButton type="radio" [value]="values[0]" [(ngModel)]="difficulty"> Verboten
+              <input ngbButton type="radio" [value]="values[3]" [(ngModel)]="difficulty"> Gut
             </label>
           </div>
           </div>
@@ -28,86 +25,53 @@
 </nb-card-body>
 </nb-card>
 <nb-card>
-<nb-card-header>
-  Karte
-</nb-card-header>
-  <nb-card-body #halle_container>
-	<img #halle src="assets/images/Hallenplan.png" (click)="changePosition($event)">
-	<img id="x1" [ngStyle]="{'top.px': cross1.top - 15, 'left.px': cross1.left -15 }" src="assets/images/Kreuz.png" *ngIf = "cross1.visible">
-  <img id="x2" [ngStyle]="{'top.px': cross2.top -15, 'left.px': cross2.left -15}" src="assets/images/Kreuz.png" *ngIf="cross2.visible">
-   <img id="xy" [ngStyle]="{'top.px': xy.top -15, 'left.px': xy.left -15  , 'transform': 'rotate('+xy.phi+'deg) scaleY('+xy.mirrored+')'}" src="assets/images/XY.png" *ngIf="xy.visible">
-  <svg *ngIf="!point1 && !point2">
-    <svg:rect class="rect" *ngFor="let rect of rects" [ngStyle]="{'fill': rect.value.color}" [attr.height]="rect.height" [attr.width]="rect.width"  [attr.x]="rect.x" [attr.y]="rect.y" (click)="changeRectValue(rect);" />  
-  </svg>
-  <img id="robotino" [ngStyle]="{'top.px': robotino.top -20, 'left.px': robotino.left -20}" src="assets/images/robotino_oben.png" *ngIf="robotino.visible">
+  <nb-card-header>Geschlecht
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="example-container toggle-types">
+
+          <div  ngbRadioGroup
+               class="btn-group btn-group-toggle btn-outline-toggle-group btn-group-full-width btn-toggle-radio-group" >
+            <label ngbButtonLabel class="btn btn-outline-primary">
+              <input ngbButton type="radio" [value]="values[1]" [(ngModel)]="difficulty"> M
+            </label>
+            <label ngbButtonLabel class="btn btn-outline-primary">
+              <input ngbButton type="radio" [value]="values[2]" [(ngModel)]="difficulty"> W
+            </label>
+            <label ngbButtonLabel class="btn btn-outline-primary">
+              <input ngbButton type="radio" [value]="values[3]" [(ngModel)]="difficulty"> Div
+            </label>
+          </div>
+          </div>
+      </div>
+  </div>
 </nb-card-body>
 </nb-card>
-
 <nb-card>
-  <nb-card-header>Unterteilung und Ausrichtung</nb-card-header>
+  <nb-card-header>Weitere Daten</nb-card-header>
   <nb-card-body>
   	<div class="row">
-  	<div class="input-group col-md-6">
-  	<button class="btn btn-primary btn-icon input-group-text" (click)="toggleCrossButton(cross1)">
-              <i class="nb-location"></i>
-            </button>
-          <input type="number" class="form-control col-md-4" placeholder="X1 in cm" [(ngModel)]="cross1.x">
-          <input type="number" class="form-control col-md-4" placeholder="Y1 in cm" [(ngModel)]="cross1.y">
-          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(cross1)">
-            <i class="ion-arrow-shrink"></i>
-          </button>
-      </div>
       <div class="input-group col-md-6">
-  	<button class="btn btn-primary btn-icon input-group-text"  (click)="toggleCrossButton(cross2)">
-              <i class="nb-location"></i>
-            </button>
-          <input type="number" class="form-control col-md-4" placeholder="X2 in cm" [(ngModel)]="cross2.x">
-          <input type="number" class="form-control col-md-4" placeholder="Y2 in cm" [(ngModel)]="cross2.y">
-          <button class="btn btn-success btn-icon input-group-text" (click)="recieveTagData(cross2)">
-            <i class="ion-arrow-shrink"></i>
-          </button>
+            <span class="input-group-addon primary" >Gewicht in kg</span>
+            <input type="number" class="form-control" [(ngModel)]="rows" (change)="refresh()" />
+      </div><div class="input-group col-md-6">
+            <span class="input-group-addon primary" >Hüftumfang in cm</span>
+            <input type="number" class="form-control" [(ngModel)]="rows" (change)="refresh()" />
+      </div>
+      <br />
+      <div class="input-group col-md-6">
+            <span class="input-group-addon primary" >Größe in cm</span>
+            <input type="number" class="form-control" [(ngModel)]="rows" (change)="refresh()" />
+      </div><div class="input-group col-md-6">
+            <span class="input-group-addon primary" >Alter in Jahre</span>
+            <input type="number" class="form-control" [(ngModel)]="rows" (change)="refresh()" />
       </div>
   </div>
   <br />
   <div class="row">
-  	<div class="input-group col-md-4">
-          <span class="input-group-addon primary" >Zeilen</span>
-          <input type="number" class="form-control" [(ngModel)]="rows" (change)="refresh()" />
-    </div>
-    <div class="input-group col-md-4">
-          <span class="input-group-addon primary">Spalten</span>
-          <input type="number" class="form-control" [(ngModel)]="cols" (change)="refresh()" />
-    </div>
    <button class="btn btn-success col-md-4" (click)="save()">Speichern</button>
         </div>
   </nb-card-body>
 </nb-card>
-<nb-card>
-  <nb-card-header>Robotino Position </nb-card-header>
-  <nb-card-body>
-    <div class="row">
-    <div class=" col-md-3">
-    <button class="btn btn-primary "  (click)="robotino.visible = !robotino.visible">
-              {{robotino.visible}}
-    </button>
-    </div>
-    <div class="col-md-3">
-        <h4 *ngIf="robotino.visible">X-Koordinate: {{robotino.x}} </h4>
-    </div>
-    <div class=" col-md-3">
-        <h4 *ngIf="robotino.visible">Y-Koordinate: {{robotino.y}}</h4>
-    </div>
-  </div>
-  </nb-card-body>
-</nb-card>
-<nb-card>
-  <nb-card-header>Kartendetails</nb-card-header>
-  <nb-card-body>
-    <div class="row">
-        <div class="input-group col-md-12">
-                <span class="input-group-addon primary">Name</span>
-                <input type="text" class="form-control" [(ngModel)]="name" />
-        </div>
-      </div>
-    </nb-card-body>
-  </nb-card>

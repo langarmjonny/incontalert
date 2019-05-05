@@ -9,7 +9,7 @@ export class UserService {
 
   private users = {
     nico: { name: 'Nicolas Ruhland', picture: 'assets/images/Nicolas_Ruhland.jpg' },
-    thomas: { name: 'Thomas Küfner', picture: 'assets/images/Thomas_Kuefner.jpg' },
+    thomas: { name: 'Jannik Lockl', picture: 'assets/images/Jannik_Lockl.jpg' },
   };
 
   private userArray: any[];
